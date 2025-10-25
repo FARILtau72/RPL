@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RPL SMK Taruna Bangsa - Pixel Adventure</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        body {
+            box-sizing: border-box;
+        }
+        
+        .pixel-font {
+            font-family: 'Press Start 2P', monospace;
+        }
+        
+        .pixel-bg {
+            background-image: 
+                radial-gradient(circle at 25% 25%, #00ff00 2px, transparent 2px),
+                radial-gradient(circle at 75% 75%, #0080ff 2px, transparent 2px);
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
+        }
+        
+        .pixel-button {
+            background: linear-gradient(45deg, #ff6b6b 0%, #ff8e8e 50%, #ff6b6b 100%);
+            border: 4px solid #000;
+            box-shadow: 
+                4px 4px 0px #000,
+                8px 8px 0px rgba(0,0,0,0.3);
+            transition: all 0.1s ease;
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
+        }
+        
+        .pixel-button:hover {
+            transform: translate(2px, 2px);
+            box-shadow: 
+                2px 2px 0px #000,
+                4px 4px 0px rgba(0,0,0,0.3);
+        }
+        
+        .pixel-button:active {
+            transform: translate(4px, 4px);
+            box-shadow: none;
+        }
+        
+        .pixel-button-blue {
+            background: linear-gradient(45deg, #4ecdc4 0%, #7fdbda 50%, #4ecdc4 100%);
+        }
+        
+        .pixel-button-green {
+            background: linear-gradient(45deg, #95e1d3 0%, #b8e6d9 50%, #95e1d3 100%);
+        }
+        
+        .pixel-button-purple {
+            background: linear-gradient(45deg, #a8e6cf 0%, #c7f0db 50%, #a8e6cf 100%);
+        }
+        
+        .pixel-card {
+            background: #fff;
+            border: 4px solid #000;
+            box-shadow: 
+                4px 4px 0px #000,
+                8px 8px 0px rgba(0,0,0,0.2);
+            image-rendering: pixelated;
+        }
+        
+        .pixel-border {
+            border: 2px solid #000;
+            border-image: url("data:image/svg+xml,%3csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='m0,0 L100,0 L100,100 L0,100 z' fill='none' stroke='black' stroke-width='2'/%3e%3c/svg%3e") 2;
+        }
+        
+        .screen-wipe {
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                #000 20%, 
+                #000 80%, 
+                transparent 100%);
+            z-index: 9999;
+            transition: left 0.5s ease-in-out;
+        }
+        
+        .screen-wipe.active {
+            left: 100%;
+        }
+        
+        .page {
+            display: none;
+            min-height: 100vh;
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        .pixel-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .pixel-photo {
+            aspect-ratio: 16/9;
+            background: linear-gradient(45deg, #f0f0f0, #e0e0e0);
+            border: 4px solid #000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            image-rendering: pixelated;
+            filter: contrast(1.2) saturate(0.8);
+            position: relative;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+            box-shadow: 4px 4px 0px #000, 8px 8px 0px rgba(0,0,0,0.2);
+        }
+        
+        .pixel-photo:hover {
+            transform: scale(1.1);
+            filter: contrast(1.5) saturate(1.2);
+            z-index: 10;
+            box-shadow: 4px 4px 0px #000, 8px 8px 0px rgba(0,0,0,0.3);
+        }
+        
+        .photo-title {
+            font-size: 0.5rem;
+            text-align: center;
+            line-height: 1;
+            max-width: 100%;
+            overflow: hidden;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 0.25rem;
+            transform: translateY(100%);
+            transition: transform 0.2s ease;
+        }
+        
+        .pixel-photo:hover .photo-title {
+            transform: translateY(0);
+        }
+        
+        .photo-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        
+        .photo-modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: white;
+            border: 4px solid #000;
+            padding: 2rem;
+            max-width: 500px;
+            margin: 1rem;
+            text-align: center;
+            position: relative;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: #ff6b6b;
+            border: 2px solid #000;
+            color: white;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .terminal-text {
+            background: #000;
+            color: #00ff00;
+            padding: 1rem;
+            border: 4px solid #333;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            line-height: 1.4;
+        }
+        
+        .dialog-box {
+            background: #fff;
+            border: 4px solid #000;
+            padding: 1rem;
+            position: relative;
+            margin: 1rem 0;
+        }
+        
+        .dialog-box::before {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 20px;
+            width: 0;
+            height: 0;
+            border-left: 12px solid transparent;
+            border-right: 12px solid transparent;
+            border-top: 12px solid #000;
+        }
+        
+        .dialog-box::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 22px;
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 10px solid #fff;
+        }
+        
+        .video-list {
+            background: #1a1a1a;
+            color: #fff;
+            border: 4px solid #333;
+        }
+        
+        .video-item {
+            border-bottom: 2px solid #333;
+            padding: 0.5rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .video-item:hover {
+            background: #333;
+        }
+        
+        .breadcrumb {
+            background: #000;
+            color: #fff;
+            padding: 0.5rem 1rem;
+            border: 2px solid #333;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body class="pixel-font bg-gradient-to-br from-blue-200 via-purple-200 to-pink-200 pixel-bg">
+    <!-- Screen Wipe Transition -->
+    <div id="screen-wipe" class="screen-wipe"></div>
+
+    <!-- Level 1: Home Page -->
+    <div id="home-page" class="page active">
+        <div class="min-h-screen flex flex-col items-center justify-center p-4">
+            <!-- Header -->
+            <div class="text-center mb-12">
+                <div class="text-6xl mb-4">🎮</div>
+                <h1 class="text-4xl md:text-6xl text-black mb-4 drop-shadow-lg">RPL ADVENTURE</h1>
+                <h2 class="text-lg md:text-2xl text-gray-800 mb-2">SMK TARUNA BANGSA</h2>
+                <p class="text-sm md:text-lg text-gray-700">KOTA BEKASI</p>
+                <div class="mt-4 text-xs text-gray-600">REKAYASA PERANGKAT LUNAK</div>
+            </div>
+            
+            <!-- Main Menu Buttons -->
+            <div class="grid gap-8 max-w-2xl w-full">
+                <!-- Kelas 10 Button -->
+                <button onclick="navigateToClass('kelas10')" class="pixel-button pixel-button-blue w-full p-6 text-white text-xl md:text-2xl">
+                    <div class="flex items-center justify-center space-x-4">
+                        <span class="text-4xl">🌱</span>
+                        <div class="text-left">
+                            <div>KELAS 10</div>
+                            <div class="text-sm opacity-75">DASAR PROGRAMMING</div>
+                        </div>
+                    </div>
+                </button>
+                
+                <!-- Kelas 11 Button -->
+                <button onclick="navigateToClass('kelas11')" class="pixel-button pixel-button-green w-full p-6 text-white text-xl md:text-2xl">
+                    <div class="flex items-center justify-center space-x-4">
+                        <span class="text-4xl">🚀</span>
+                        <div class="text-left">
+                            <div>KELAS 11</div>
+                            <div class="text-sm opacity-75">PENGEMBANGAN APP</div>
+                        </div>
+                    </div>
+                </button>
+                
+                <!-- Kelas 12 Button -->
+                <button onclick="navigateToClass('kelas12')" class="pixel-button pixel-button-purple w-full p-6 text-white text-xl md:text-2xl">
+                    <div class="flex items-center justify-center space-x-4">
+                        <span class="text-4xl">🎓</span>
+                        <div class="text-left">
+                            <div>KELAS 12</div>
+                            <div class="text-sm opacity-75">SPESIALISASI & PKL</div>
+                        </div>
+                    </div>
+                </button>
+            </div>
+            
+            <!-- Footer Info -->
+            <div class="mt-12 text-center text-xs text-gray-600">
+                <p>BY REKAYASA PERANGKAT LUNAK NASA</p>
+                <p class="mt-2">© 2024 SMK TARUNA BANGSA BEKASI</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Level 2: Class Selection Pages -->
+    <!-- Kelas 10 Menu -->
+    <div id="kelas10-page" class="page">
+        <div class="min-h-screen p-4">
+            <!-- Breadcrumb -->
+            <div class="breadcrumb text-sm">
+                <span onclick="navigateToHome()" class="cursor-pointer hover:text-yellow-400">HOME</span> > KELAS 10
+            </div>
+            
+            <div class="flex flex-col items-center justify-center min-h-screen">
+                <div class="text-center mb-12">
+                    <div class="text-6xl mb-4">🌱</div>
+                    <h1 class="text-3xl md:text-5xl text-black mb-4">KELAS 10 RPL</h1>
+                    <p class="text-lg text-gray-800">FONDASI PEMROGRAMAN</p>
+                </div>
+                
+                <div class="grid gap-6 max-w-xl w-full">
+                    <button onclick="navigateToContent('kelas10', 'galeri')" class="pixel-button w-full p-4 text-white text-lg">
+                        <div class="flex items-center justify-center space-x-3">
+                            <span class="text-3xl">📸</span>
+                            <span>GALERI</span>
+                        </div>
+                    </button>
+                    
+                    <button onclick="navigateToContent('kelas10', 'materi')" class="pixel-button pixel-button-blue w-full p-4 text-white text-lg">
+                        <div class="flex items-center justify-center space-x-3">
+                            <span class="text-3xl">📚</span>
+                            <span>MATERI</span>
+                        </div>
+                    </button>
+                    
+                    <button onclick="navigateToContent('kelas10', 'video')" class="pixel-button pixel-button-green w-full p-4 text-white text-lg">
+                        <div class="flex items-center justify-center space-x-3">
+                            <span class="text-3xl">🎥</span>
+                            <span>VIDEO</span>
+                        </div>
+                    </button>
+                </div>
+                
+                <button onclick="navigateToHome()" class="mt-8 px-6 py-2 bg-gray-600 text-white border-2 border-black hover:bg-gray-700">
+                    ← BACK TO HOME
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Kelas 11 Menu -->
+    <div id="kelas11-page" class="page">
+        <div class="min-h-screen p-4">
+            <div class="breadcrumb text-sm">
+                <span onclick="navigateToHome()" class="cursor-pointer hover:text-yellow-400">HOME</span> > KELAS 11
+            </div>
+            
+            <div class="flex flex-col items-center justify-center min-h-screen">
+                <div class="text-center mb-12">
+                    <div class="text-6xl mb-4">🚀</div>
+                    <h1 class="text-3xl md:text-5xl text-black mb-4">KELAS 11 RPL</h1>
+                    <p class="text-lg text-gray-800">PENGEMBANGAN APLIKASI</p>
+                </div>
+                
+                <div class="grid gap-6 max-w-xl w-full">
+                    <button onclick="navigateToContent('kelas11', 'galeri')" class="pixel-button w-full p-4 text-white text-lg">
+                        <div class="flex items-center justify-center space-x-3">
+                            <span class="text-3xl">📸</span>
+                            <span>GALERI</span>
+                        </div>
+                    </button>
+                    
+                    <button onclick="navigateToContent('kelas11', 'materi')" class="pixel-button pixel-button-blue w-full p-4 text-white text-lg">
+                        <div class="flex items-center justify-center space-x-3">
+                            <span class="text-3xl">📚</span>
+                            <span>MATERI</span>
+                        </div>
+                    </button>
+                    
+                    <button onclick="navigateToContent('kelas11', 'video')" class="pixel-button pixel-button-green w-full p-4 text-white text-lg">
+                        <div class="flex items-center justify-center space-x-3">
+                            <span class="text-3xl">🎥</span>
+                            <span>VIDEO</span>
+                        </div>
+                    </button>
+                </div>
+                
+                <button onclick="navigateToHome()" class="mt-8 px-6 py-2 bg-gray-600 text-white border-2 border-black hover:bg-gray-700">
+                    ← BACK TO HOME
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Kelas 12 Menu -->
+    <div id="kelas12-page" class="page">
+        <div class="min-h-screen p-4">
+            <div class="breadcrumb text-sm">
+                <span onclick="navigateToHome()" class="cursor-pointer hover:text-yellow-400">HOME</span> > KELAS 12
+            </div>
+            
+            <div class="flex flex-col items-center justify-center min-h-screen">
+                <div class="text-center mb-12">
+                    <div class="text-6xl mb-4">🎓</div>
+                    <h1 class="text-3xl md:text-5xl text-black mb-4">KELAS 12 RPL</h1>
+                    <p class="text-lg text-gray-800">SPESIALISASI & PKL</p>
+                </div>
+                
+                <div class="grid gap-6 max-w-xl w-full">
+                    <button onclick="navigateToContent('kelas12', 'galeri')" class="pixel-button w-full p-4 text-white text-lg">
+                        <div class="flex items-center justify-center space-x-3">
+                            <span class="text-3xl">📸</span>
+                            <span>GALERI</span>
+                        </div>
+                    </button>
+                    
+                    <button onclick="navigateToContent('kelas12', 'materi')" class="pixel-button pixel-button-blue w-full p-4 text-white text-lg">
+                        <div class="flex items-center justify-center space-x-3">
+                            <span class="text-3xl">📚</span>
+                            <span>MATERI</span>
+                        </div>
+                    </button>
+                    
+                    <button onclick="navigateToContent('kelas12', 'video')" class="pixel-button pixel-button-green w-full p-4 text-white text-lg">
+                        <div class="flex items-center justify-center space-x-3">
+                            <span class="text-3xl">🎥</span>
+                            <span>VIDEO</span>
+                        </div>
+                    </button>
+                </div>
+                
+                <button onclick="navigateToHome()" class="mt-8 px-6 py-2 bg-gray-600 text-white border-2 border-black hover:bg-gray-700">
+                    ← BACK TO HOME
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Level 3: Content Pages -->
+    <!-- Galeri Content -->
+    <div id="galeri-content" class="page">
+        <div class="min-h-screen p-4">
+            <div class="breadcrumb text-sm">
+                <span onclick="navigateToHome()" class="cursor-pointer hover:text-yellow-400">HOME</span> > 
+                <span id="galeri-breadcrumb-class" onclick="navigateBack()" class="cursor-pointer hover:text-yellow-400">KELAS</span> > 
+                GALERI
+            </div>
+            
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-8">
+                    <div class="text-5xl mb-4">📸</div>
+                    <h1 class="text-2xl md:text-4xl text-black mb-4">FOTO GALERI</h1>
+                    <p id="galeri-description" class="text-lg text-gray-800 mb-4"></p>
+                    <p class="text-sm text-gray-600">Klik foto untuk melihat detail</p>
+                </div>
+                
+                <!-- Video Grid -->
+                <div class="pixel-gallery mb-8" id="galeri-grid">
+                    <!-- Video thumbnails will be populated by JavaScript -->
+                </div>
+                
+                <div class="text-center">
+                    <button onclick="navigateBack()" class="pixel-button px-6 py-3 text-white">
+                        ← BACK TO CLASS MENU
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Photo Modal -->
+    <div id="photo-modal" class="photo-modal">
+        <div class="modal-content">
+            <div class="modal-close" onclick="closePhotoModal()">×</div>
+            <div id="modal-emoji" class="text-8xl mb-4 text-center">📷</div>
+            <h3 id="modal-title" class="text-xl font-bold mb-2 text-center">Photo Title</h3>
+            <p id="modal-description" class="text-gray-600 mb-4 text-center">Photo description</p>
+            <div class="text-center">
+                <button onclick="closePhotoModal()" class="pixel-button px-4 py-2 text-white">
+                    CLOSE
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Video Modal -->
+    <div id="video-modal" class="photo-modal">
+        <div class="modal-content" style="max-width: 90vw; max-height: 90vh; padding: 1rem;">
+            <div class="modal-close" onclick="closeVideoModal()">×</div>
+            <div class="pixel-card bg-black p-2 mb-4">
+                <div class="relative" style="padding-bottom: 56.25%; height: 0;">
+                    <iframe 
+                        id="modal-video-player" 
+                        src="" 
+                        class="absolute top-0 left-0 w-full h-full border-4 border-white"
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+            </div>
+            <div class="text-center">
+                <h3 id="modal-video-title" class="text-xl font-bold mb-2">Video Title</h3>
+                <p id="modal-video-desc" class="text-gray-600 mb-4">Video description</p>
+                <button onclick="closeVideoModal()" class="pixel-button px-4 py-2 text-white">
+                    CLOSE
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Materi Content -->
+    <div id="materi-content" class="page">
+        <div class="min-h-screen p-4">
+            <div class="breadcrumb text-sm">
+                <span onclick="navigateToHome()" class="cursor-pointer hover:text-yellow-400">HOME</span> > 
+                <span id="materi-breadcrumb-class" onclick="navigateBack()" class="cursor-pointer hover:text-yellow-400">KELAS</span> > 
+                MATERI
+            </div>
+            
+            <div class="max-w-4xl mx-auto">
+                <div class="text-center mb-8">
+                    <div class="text-5xl mb-4">📚</div>
+                    <h1 class="text-2xl md:text-4xl text-black mb-4">KURIKULUM</h1>
+                    <p id="materi-description" class="text-lg text-gray-800"></p>
+                </div>
+                
+                <div id="materi-content-area" class="mb-8">
+                    <!-- Content will be populated by JavaScript -->
+                </div>
+                
+                <div class="text-center">
+                    <button onclick="navigateBack()" class="pixel-button px-6 py-3 text-white">
+                        ← BACK TO CLASS MENU
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Video Content -->
+    <div id="video-content" class="page">
+        <div class="min-h-screen p-4">
+            <div class="breadcrumb text-sm">
+                <span onclick="navigateToHome()" class="cursor-pointer hover:text-yellow-400">HOME</span> > 
+                <span id="video-breadcrumb-class" onclick="navigateBack()" class="cursor-pointer hover:text-yellow-400">KELAS</span> > 
+                VIDEO
+            </div>
+            
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-8">
+                    <div class="text-5xl mb-4">🎥</div>
+                    <h1 class="text-2xl md:text-4xl text-black mb-4">VIDEO PEMBELAJARAN</h1>
+                    <p id="video-description" class="text-lg text-gray-800"></p>
+                </div>
+                
+                <!-- Big Video Player -->
+                <div class="pixel-card bg-black p-4 mb-8">
+                    <div class="relative" style="padding-bottom: 56.25%; height: 0;">
+                        <iframe 
+                            id="main-video-player" 
+                            src="" 
+                            class="absolute top-0 left-0 w-full h-full border-4 border-white"
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                    <div class="text-center mt-4">
+                        <h3 id="main-video-title" class="text-xl font-bold text-white mb-2">Video Pembelajaran</h3>
+                        <p id="main-video-desc" class="text-gray-300 text-sm">Klik play untuk memulai pembelajaran</p>
+                    </div>
+                </div>
+                
+                <div class="text-center">
+                    <button onclick="navigateBack()" class="pixel-button px-6 py-3 text-white">
+                        ← BACK TO CLASS MENU
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentClass = '';
+        let currentContent = '';
+
+        // Content data
+        const contentData = {
+            kelas10: {
+                galeri: {
+                    description: "Dokumentasi foto kegiatan dan pembelajaran kelas 10",
+                    photos: [
+                        { image: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=400", title: "Orientasi Siswa Baru", desc: "Hari pertama masuk sekolah dan perkenalan dengan teman-teman baru" },
+                        { image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=400", title: "Lab Komputer", desc: "Suasana belajar di laboratorium komputer yang modern" },
+                        { image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400", title: "Coding Session", desc: "Siswa sedang fokus menulis kode HTML pertama mereka" },
+                        { image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400", title: "Web Design", desc: "Belajar mendesain tampilan website dengan CSS" },
+                        { image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=400", title: "Presentasi Algoritma", desc: "Siswa mempresentasikan flowchart di depan kelas" },
+                        { image: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=400", title: "Hardware Practice", desc: "Praktik merakit dan troubleshooting komputer" },
+                        { image: "https://images.unsplash.com/photo-1544383835-bda2bc66a55d?w=400", title: "Database Workshop", desc: "Workshop MySQL dan query database" },
+                        { image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400", title: "First Website", desc: "Bangga menunjukkan website portfolio pertama" },
+                        { image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=400", title: "Team Work", desc: "Kerja sama tim dalam mengerjakan project kelompok" },
+                        { image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?w=400", title: "Project Demo", desc: "Demo hasil project di akhir semester" },
+                        { image: "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=400", title: "Debug Session", desc: "Sesi debugging bersama untuk memecahkan masalah code" },
+                        { image: "https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?w=400", title: "Problem Solving", desc: "Latihan logika dan pemecahan masalah programming" }
+                    ]
+                },
+                materi: {
+                    description: "Kurikulum dasar pemrograman untuk siswa kelas 10",
+                    content: `
+                        <div class="dialog-box mb-4">
+                            <h3 class="text-lg font-bold mb-2">📖 SEMESTER 1</h3>
+                            <ul class="text-sm space-y-2">
+                                <li class="flex items-center space-x-2"><span class="text-lg">🖥️</span><span>Pengenalan Komputer & Hardware</span></li>
+                                <li class="flex items-center space-x-2"><span class="text-lg">🐧</span><span>Sistem Operasi Windows & Linux</span></li>
+                                <li class="flex items-center space-x-2"><span class="text-lg">📊</span><span>Algoritma & Flowchart</span></li>
+                                <li class="flex items-center space-x-2"><span class="text-lg">🌐</span><span>HTML & CSS Dasar</span></li>
+                                <li class="flex items-center space-x-2"><span class="text-lg">🔗</span><span>Jaringan Komputer Dasar</span></li>
+                            </ul>
+                        </div>
+                        <div class="dialog-box">
+                            <h3 class="text-lg font-bold mb-2">📖 SEMESTER 2</h3>
+                            <ul class="text-sm space-y-2">
+                                <li class="flex items-center space-x-2"><span class="text-lg">⚡</span><span>JavaScript Fundamental</span></li>
+                                <li class="flex items-center space-x-2"><span class="text-lg">🗄️</span><span>Database MySQL</span></li>
+                                <li class="flex items-center space-x-2"><span class="text-lg">🚀</span><span>Web Development Project</span></li>
+                                <li class="flex items-center space-x-2"><span class="text-lg">🔧</span><span>Troubleshooting Hardware</span></li>
+                                <li class="flex items-center space-x-2"><span class="text-lg">📋</span><span>Presentasi & Dokumentasi</span></li>
+                            </ul>
+                        </div>
+                    `
+                },
+                video: {
+                    description: "Video pembelajaran dan perkenalan untuk kelas 10",
+                    videos: [
+                        { title: "🎬 Perkenalan Jurusan RPL", duration: "15:30", type: "Orientasi" },
+                        { title: "💻 Dasar-dasar HTML", duration: "25:45", type: "Tutorial" },
+                        { title: "🎨 CSS untuk Pemula", duration: "30:20", type: "Tutorial" },
+                        { title: "📊 Algoritma Sederhana", duration: "20:15", type: "Materi" },
+                        { title: "🔧 Setup Development Environment", duration: "18:40", type: "Praktik" },
+                        { title: "🌐 Pengenalan Internet", duration: "22:10", type: "Teori" }
+                    ]
+                }
+            },
+            kelas11: {
+                galeri: {
+                    description: "Dokumentasi foto proyek dan kegiatan kelas 11",
+                    photos: [
+                        { image: "https://images.unsplash.com/photo-1517180102446-f3ece451e9d8?w=400", title: "Laravel Workshop", desc: "Intensive workshop pengembangan web dengan framework Laravel" },
+                        { image: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=400", title: "Mobile Dev Lab", desc: "Suasana lab saat mengembangkan aplikasi Android dengan Kotlin" },
+                        { image: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=400", title: "Hackathon Night", desc: "Semangat coding 24 jam non-stop dalam kompetisi internal" },
+                        { image: "https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?w=400", title: "UI/UX Design", desc: "Workshop desain antarmuka dengan Figma dan Adobe XD" },
+                        { image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400", title: "E-commerce Project", desc: "Tim sedang mengembangkan aplikasi e-commerce lengkap" },
+                        { image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400", title: "Innovation Expo", desc: "Pameran inovasi teknologi dan demo project siswa" },
+                        { image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=400", title: "API Development", desc: "Sesi coding RESTful API dengan Laravel dan Postman" },
+                        { image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400", title: "Database Design", desc: "Workshop perancangan database yang efisien dan scalable" },
+                        { image: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=400", title: "Scrum Meeting", desc: "Daily standup meeting menggunakan metodologi Agile" },
+                        { image: "https://images.unsplash.com/photo-1556075798-4825dfaaf498?w=400", title: "Git Collaboration", desc: "Belajar version control dan kolaborasi tim dengan Git" },
+                        { image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400", title: "Data Dashboard", desc: "Membuat dashboard interaktif dengan Chart.js dan D3" },
+                        { image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=400", title: "Cloud Deployment", desc: "Deploy aplikasi ke AWS dan Google Cloud Platform" }
+                    ]
+                },
+                materi: {
+                    description: "Kurikulum pengembangan aplikasi untuk kelas 11",
+                    content: `
+                        <div class="terminal-text mb-4">
+                            <div class="text-green-400 mb-2">root@rpl-kelas11:~$ cat semester1.txt</div>
+                            <div class="text-white">
+                                🐘 PHP & Laravel Framework<br>
+                                🎯 Object Oriented Programming<br>
+                                🗃️ Database Design & Management<br>
+                                🔌 RESTful API Development<br>
+                                🌿 Version Control (Git & GitHub)
+                            </div>
+                        </div>
+                        <div class="terminal-text">
+                            <div class="text-green-400 mb-2">root@rpl-kelas11:~$ cat semester2.txt</div>
+                            <div class="text-white">
+                                🤖 Android Development (Kotlin)<br>
+                                🎨 UI/UX Design Principles<br>
+                                📈 Project Management (Agile/Scrum)<br>
+                                🧪 Testing & Quality Assurance<br>
+                                🏢 Industry Collaboration Project
+                            </div>
+                        </div>
+                    `
+                },
+                video: {
+                    description: "Video proyek siswa dan tutorial lanjutan kelas 11",
+                    videos: [
+                        { title: "🚀 Laravel CRUD Tutorial", duration: "45:30", type: "Framework" },
+                        { title: "📱 Android App Demo", duration: "35:20", type: "Project" },
+                        { title: "🎨 Figma UI Design", duration: "28:15", type: "Design" },
+                        { title: "🔗 API Integration", duration: "40:10", type: "Backend" },
+                        { title: "🏆 Hackathon Highlights", duration: "12:45", type: "Event" },
+                        { title: "👥 Team Collaboration Tips", duration: "18:30", type: "Soft Skills" }
+                    ]
+                }
+            },
+            kelas12: {
+                galeri: {
+                    description: "Dokumentasi foto kegiatan akhir, PKL, dan persiapan kelulusan kelas 12",
+                    photos: [
+                        { image: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=400", title: "PKL di Industri", desc: "Magang 6 bulan di perusahaan IT terkemuka Jakarta" },
+                        { image: "https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=400", title: "Capstone Project", desc: "Presentasi proyek akhir full-stack yang kompleks" },
+                        { image: "https://images.unsplash.com/photo-1567427017947-545c5f8d16ad?w=400", title: "Sertifikasi AWS", desc: "Bangga meraih sertifikasi AWS Cloud Practitioner" },
+                        { image: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=400", title: "Job Fair 2024", desc: "Pameran kerja dan sesi rekrutmen langsung" },
+                        { image: "https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=400", title: "Final Presentation", desc: "Presentasi di hadapan juri dari industri IT" },
+                        { image: "https://images.unsplash.com/photo-1523050854058-8df90110c9d1?w=400", title: "Graduation Day", desc: "Momen kelulusan dan wisuda yang membanggakan" },
+                        { image: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=400", title: "React Mastery", desc: "Workshop advanced React.js dan state management" },
+                        { image: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=400", title: "Cloud Expert", desc: "Deploy aplikasi enterprise ke AWS dan GCP" },
+                        { image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=400", title: "AI & Data Science", desc: "Eksplorasi machine learning dengan Python" },
+                        { image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=400", title: "Cybersecurity", desc: "Workshop keamanan aplikasi dan ethical hacking" },
+                        { image: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=400", title: "Startup Pitch", desc: "Kompetisi presentasi ide bisnis teknologi" },
+                        { image: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=400", title: "Alumni Success", desc: "Testimoni perjalanan 3 tahun di RPL Taruna Bangsa" }
+                    ]
+                },
+                materi: {
+                    description: "Kurikulum spesialisasi dan persiapan karir kelas 12",
+                    content: `
+                        <div class="dialog-box mb-4">
+                            <h3 class="text-lg font-bold mb-2">🎯 SPESIALISASI TRACK</h3>
+                            <div class="grid md:grid-cols-2 gap-4 text-sm">
+                                <div>
+                                    <strong>🌐 Full-Stack Development:</strong><br>
+                                    <span class="flex items-center space-x-1 mt-1"><span>⚛️</span><span>React.js & Node.js</span></span><br>
+                                    <span class="flex items-center space-x-1"><span>🍃</span><span>MongoDB & PostgreSQL</span></span><br>
+                                    <span class="flex items-center space-x-1"><span>☁️</span><span>Cloud Deployment (AWS/GCP)</span></span>
+                                </div>
+                                <div>
+                                    <strong>📱 Mobile Development:</strong><br>
+                                    <span class="flex items-center space-x-1 mt-1"><span>🦋</span><span>Flutter & React Native</span></span><br>
+                                    <span class="flex items-center space-x-1"><span>🔥</span><span>Firebase Integration</span></span><br>
+                                    <span class="flex items-center space-x-1"><span>📲</span><span>App Store Deployment</span></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dialog-box">
+                            <h3 class="text-lg font-bold mb-2">💼 PERSIAPAN KARIR</h3>
+                            <ul class="text-sm space-y-2">
+                                <li class="flex items-center space-x-2"><span class="text-lg">🏭</span><span>Praktek Kerja Lapangan (6 bulan)</span></li>
+                                <li class="flex items-center space-x-2"><span class="text-lg">🏆</span><span>Sertifikasi Internasional</span></li>
+                                <li class="flex items-center space-x-2"><span class="text-lg">💼</span><span>Portfolio Development</span></li>
+                                <li class="flex items-center space-x-2"><span class="text-lg">🎤</span><span>Interview Skills & CV Writing</span></li>
+                                <li class="flex items-center space-x-2"><span class="text-lg">💡</span><span>Entrepreneurship Basics</span></li>
+                            </ul>
+                        </div>
+                    `
+                },
+                video: {
+                    description: "Video testimoni alumni dan panduan karir",
+                    videos: [
+                        { title: "🎓 Alumni Success Stories", duration: "25:40", type: "Testimoni" },
+                        { title: "💼 Career Path in IT", duration: "35:15", type: "Karir" },
+                        { title: "🏢 PKL Experience Sharing", duration: "28:30", type: "PKL" },
+                        { title: "🚀 Startup Journey", duration: "32:20", type: "Entrepreneurship" },
+                        { title: "🏆 Certification Guide", duration: "22:45", type: "Sertifikasi" },
+                        { title: "💡 Final Project Showcase", duration: "45:10", type: "Project" }
+                    ]
+                }
+            }
+        };
+
+        // Navigation functions
+        function navigateToHome() {
+            screenWipe(() => {
+                hideAllPages();
+                document.getElementById('home-page').classList.add('active');
+                currentClass = '';
+                currentContent = '';
+            });
+        }
+
+        function navigateToClass(className) {
+            screenWipe(() => {
+                hideAllPages();
+                document.getElementById(className + '-page').classList.add('active');
+                currentClass = className;
+            });
+        }
+
+        function navigateToContent(className, contentType) {
+            screenWipe(() => {
+                hideAllPages();
+                currentClass = className;
+                currentContent = contentType;
+                
+                // Update breadcrumbs
+                const classNumber = className.replace('kelas', '');
+                document.getElementById(contentType + '-breadcrumb-class').textContent = 'KELAS ' + classNumber;
+                
+                // Load content
+                loadContent(className, contentType);
+                
+                // Show content page
+                document.getElementById(contentType + '-content').classList.add('active');
+            });
+        }
+
+        function navigateBack() {
+            if (currentClass) {
+                navigateToClass(currentClass);
+            } else {
+                navigateToHome();
+            }
+        }
+
+        function hideAllPages() {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+        }
+
+        function screenWipe(callback) {
+            const wipe = document.getElementById('screen-wipe');
+            wipe.classList.add('active');
+            
+            setTimeout(() => {
+                callback();
+                setTimeout(() => {
+                    wipe.classList.remove('active');
+                }, 100);
+            }, 250);
+        }
+
+        function loadContent(className, contentType) {
+            const data = contentData[className][contentType];
+            
+            if (contentType === 'galeri') {
+                document.getElementById('galeri-description').textContent = data.description;
+                const grid = document.getElementById('galeri-grid');
+                grid.innerHTML = '';
+                
+                data.photos.forEach((photo, index) => {
+                    const photoDiv = document.createElement('div');
+                    photoDiv.className = 'pixel-photo';
+                    photoDiv.style.backgroundImage = `url('${photo.image}')`;
+                    photoDiv.innerHTML = `
+                        <div class="photo-title">${photo.title}</div>
+                    `;
+                    photoDiv.onclick = () => showPhotoModal(photo);
+                    
+                    // Add error handling for images
+                    const img = new Image();
+                    img.onload = () => {
+                        photoDiv.style.backgroundImage = `url('${photo.image}')`;
+                    };
+                    img.onerror = () => {
+                        photoDiv.style.background = 'linear-gradient(45deg, #f8f9fa, #e9ecef)';
+                        photoDiv.innerHTML = `
+                            <div class="text-6xl mb-2">📷</div>
+                            <div class="photo-title">${photo.title}</div>
+                        `;
+                    };
+                    img.src = photo.image;
+                    
+                    grid.appendChild(photoDiv);
+                });
+            } else if (contentType === 'materi') {
+                document.getElementById('materi-description').textContent = data.description;
+                document.getElementById('materi-content-area').innerHTML = data.content;
+            } else if (contentType === 'video') {
+                document.getElementById('video-description').textContent = data.description;
+                
+                // Load main video player with sample video
+                const mainVideoPlayer = document.getElementById('main-video-player');
+                const mainVideoTitle = document.getElementById('main-video-title');
+                const mainVideoDesc = document.getElementById('main-video-desc');
+                
+                // Set default video
+                mainVideoPlayer.src = 'https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0';
+                mainVideoTitle.textContent = 'Video Pembelajaran ' + className.replace('kelas', 'Kelas ');
+                mainVideoDesc.textContent = data.description;
+            }
+        }
+
+        function showVideoModal(video) {
+            const videoPlayer = document.getElementById('modal-video-player');
+            const videoTitle = document.getElementById('modal-video-title');
+            const videoDesc = document.getElementById('modal-video-desc');
+            
+            // Set YouTube embed URL
+            videoPlayer.src = `https://www.youtube.com/embed/${video.videoId}?autoplay=1&rel=0`;
+            videoTitle.textContent = video.title;
+            videoDesc.textContent = video.desc;
+            
+            document.getElementById('video-modal').classList.add('active');
+        }
+
+        function closeVideoModal() {
+            const videoPlayer = document.getElementById('modal-video-player');
+            videoPlayer.src = ''; // Stop video
+            document.getElementById('video-modal').classList.remove('active');
+        }
+
+        function showPhotoModal(photo) {
+            const modalEmoji = document.getElementById('modal-emoji');
+            if (photo.image) {
+                modalEmoji.style.backgroundImage = `url('${photo.image}')`;
+                modalEmoji.style.backgroundSize = 'cover';
+                modalEmoji.style.backgroundPosition = 'center';
+                modalEmoji.style.width = '300px';
+                modalEmoji.style.height = '200px';
+                modalEmoji.style.border = '4px solid #000';
+                modalEmoji.style.margin = '0 auto';
+                modalEmoji.style.borderRadius = '8px';
+                modalEmoji.textContent = '';
+            } else {
+                modalEmoji.style.backgroundImage = 'none';
+                modalEmoji.style.width = 'auto';
+                modalEmoji.style.height = 'auto';
+                modalEmoji.style.border = 'none';
+                modalEmoji.style.borderRadius = '0';
+                modalEmoji.textContent = photo.emoji || '📷';
+            }
+            document.getElementById('modal-title').textContent = photo.title;
+            document.getElementById('modal-description').textContent = photo.desc;
+            document.getElementById('photo-modal').classList.add('active');
+        }
+
+        function closePhotoModal() {
+            document.getElementById('photo-modal').classList.remove('active');
+        }
+
+        // Add keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                // Close modals first if open
+                if (document.getElementById('video-modal').classList.contains('active')) {
+                    closeVideoModal();
+                } else if (document.getElementById('photo-modal').classList.contains('active')) {
+                    closePhotoModal();
+                } else if (currentContent) {
+                    navigateBack();
+                } else if (currentClass) {
+                    navigateToHome();
+                }
+            }
+        });
+
+        // Close modal when clicking outside
+        document.getElementById('video-modal').addEventListener('click', (e) => {
+            if (e.target.id === 'video-modal') {
+                closeVideoModal();
+            }
+        });
+
+        document.getElementById('photo-modal').addEventListener('click', (e) => {
+            if (e.target.id === 'photo-modal') {
+                closePhotoModal();
+            }
+        });
+
+        // Add sound effects (optional)
+        function playButtonSound() {
+            // You can add Web Audio API sound effects here
+            console.log('Button clicked!');
+        }
+
+        // Add click sound to all buttons
+        document.addEventListener('click', (e) => {
+            if (e.target.tagName === 'BUTTON') {
+                playButtonSound();
+            }
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9941f2c7c2b0fd02',t:'MTc2MTM5Nzc2Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
