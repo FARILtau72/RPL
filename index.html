@@ -514,14 +514,12 @@
             <div class="modal-close" onclick="closeVideoModal()">×</div>
             <div class="pixel-card bg-black p-2 mb-4">
                 <div class="relative" style="padding-bottom: 56.25%; height: 0;">
-                    <iframe 
-                        id="modal-video-player" 
-                        src="" 
+                    <video
+                        id="modal-video-player"
+                        src=""
                         class="absolute top-0 left-0 w-full h-full border-4 border-white"
-                        frameborder="0" 
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                        allowfullscreen>
-                    </iframe>
+                        controls>
+                    </video>
                 </div>
             </div>
             <div class="text-center">
@@ -582,19 +580,25 @@
                 <!-- Big Video Player -->
                 <div class="pixel-card bg-black p-4 mb-8">
                     <div class="relative" style="padding-bottom: 56.25%; height: 0;">
-                        <iframe 
-                            id="main-video-player" 
-                            src="" 
+                        <video
+                            id="main-video-player"
+                            src=""
                             class="absolute top-0 left-0 w-full h-full border-4 border-white"
-                            frameborder="0" 
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                            allowfullscreen>
-                        </iframe>
+                            controls>
+                        </video>
                     </div>
                     <div class="text-center mt-4">
                         <h3 id="main-video-title" class="text-xl font-bold text-white mb-2">Video Pembelajaran</h3>
                         <p id="main-video-desc" class="text-gray-300 text-sm">Klik play untuk memulai pembelajaran</p>
                     </div>
+                </div>
+
+                <!-- Video List -->
+                <div class="video-list pixel-card mb-8">
+                    <h3 class="text-lg font-bold mb-4 text-center">Daftar Video</h3>
+                    <ul id="video-list-ul" class="space-y-2">
+                        <!-- Video items will be populated by JavaScript -->
+                    </ul>
                 </div>
                 
                 <div class="text-center">
@@ -658,12 +662,12 @@
                 video: {
                     description: "Video pembelajaran dan perkenalan untuk kelas 10",
                     videos: [
-                        { title: "🎬 Perkenalan Jurusan RPL", duration: "15:30", type: "Orientasi" },
-                        { title: "💻 Dasar-dasar HTML", duration: "25:45", type: "Tutorial" },
-                        { title: "🎨 CSS untuk Pemula", duration: "30:20", type: "Tutorial" },
-                        { title: "📊 Algoritma Sederhana", duration: "20:15", type: "Materi" },
-                        { title: "🔧 Setup Development Environment", duration: "18:40", type: "Praktik" },
-                        { title: "🌐 Pengenalan Internet", duration: "22:10", type: "Teori" }
+                        { title: "🎬 Perkenalan Jurusan RPL", duration: "15:30", type: "Orientasi", src: "videos/10/video1.mp4" },
+                        { title: "💻 Dasar-dasar HTML", duration: "25:45", type: "Tutorial", src: "videos/10/video2.mp4" },
+                        { title: "🎨 CSS untuk Pemula", duration: "30:20", type: "Tutorial", src: "videos/10/video3.mp4" },
+                        { title: "📊 Algoritma Sederhana", duration: "20:15", type: "Materi", src: "videos/10/video4.mp4" },
+                        { title: "🔧 Setup Development Environment", duration: "18:40", type: "Praktik", src: "videos/10/video5.mp4" },
+                        { title: "🌐 Pengenalan Internet", duration: "22:10", type: "Teori", src: "videos/10/video6.mp4" }
                     ]
                 }
             },
@@ -713,12 +717,12 @@
                 video: {
                     description: "Video proyek siswa dan tutorial lanjutan kelas 11",
                     videos: [
-                        { title: "🚀 Laravel CRUD Tutorial", duration: "45:30", type: "Framework" },
-                        { title: "📱 Android App Demo", duration: "35:20", type: "Project" },
-                        { title: "🎨 Figma UI Design", duration: "28:15", type: "Design" },
-                        { title: "🔗 API Integration", duration: "40:10", type: "Backend" },
-                        { title: "🏆 Hackathon Highlights", duration: "12:45", type: "Event" },
-                        { title: "👥 Team Collaboration Tips", duration: "18:30", type: "Soft Skills" }
+                        { title: "🚀 Laravel CRUD Tutorial", duration: "45:30", type: "Framework", src: "videos/11/video1.mp4" },
+                        { title: "📱 Android App Demo", duration: "35:20", type: "Project", src: "videos/11/video2.mp4" },
+                        { title: "🎨 Figma UI Design", duration: "28:15", type: "Design", src: "videos/11/video3.mp4" },
+                        { title: "🔗 API Integration", duration: "40:10", type: "Backend", src: "videos/11/video4.mp4" },
+                        { title: "🏆 Hackathon Highlights", duration: "12:45", type: "Event", src: "videos/11/video5.mp4" },
+                        { title: "👥 Team Collaboration Tips", duration: "18:30", type: "Soft Skills", src: "videos/11/video6.mp4" }
                     ]
                 }
             },
@@ -775,12 +779,12 @@
                 video: {
                     description: "Video testimoni alumni dan panduan karir",
                     videos: [
-                        { title: "🎓 Alumni Success Stories", duration: "25:40", type: "Testimoni" },
-                        { title: "💼 Career Path in IT", duration: "35:15", type: "Karir" },
-                        { title: "🏢 PKL Experience Sharing", duration: "28:30", type: "PKL" },
-                        { title: "🚀 Startup Journey", duration: "32:20", type: "Entrepreneurship" },
-                        { title: "🏆 Certification Guide", duration: "22:45", type: "Sertifikasi" },
-                        { title: "💡 Final Project Showcase", duration: "45:10", type: "Project" }
+                        { title: "🎓 Alumni Success Stories", duration: "25:40", type: "Testimoni", src: "videos/12/video1.mp4" },
+                        { title: "💼 Career Path in IT", duration: "35:15", type: "Karir", src: "videos/12/video2.mp4" },
+                        { title: "🏢 PKL Experience Sharing", duration: "28:30", type: "PKL", src: "videos/12/video3.mp4" },
+                        { title: "🚀 Startup Journey", duration: "32:20", type: "Entrepreneurship", src: "videos/12/video4.mp4" },
+                        { title: "🏆 Certification Guide", duration: "22:45", type: "Sertifikasi", src: "videos/12/video5.mp4" },
+                        { title: "💡 Final Project Showcase", duration: "45:10", type: "Project", src: "videos/12/video6.mp4" }
                     ]
                 }
             }
@@ -886,16 +890,36 @@
                 document.getElementById('materi-content-area').innerHTML = data.content;
             } else if (contentType === 'video') {
                 document.getElementById('video-description').textContent = data.description;
-                
-                // Load main video player with sample video
+
+                // Load main video player with first video
                 const mainVideoPlayer = document.getElementById('main-video-player');
                 const mainVideoTitle = document.getElementById('main-video-title');
                 const mainVideoDesc = document.getElementById('main-video-desc');
-                
-                // Set default video
-                mainVideoPlayer.src = 'https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0';
-                mainVideoTitle.textContent = 'Video Pembelajaran ' + className.replace('kelas', 'Kelas ');
-                mainVideoDesc.textContent = data.description;
+
+                // Set first video
+                const firstVideo = data.videos[0];
+                mainVideoPlayer.src = firstVideo.src;
+                mainVideoTitle.textContent = firstVideo.title;
+                mainVideoDesc.textContent = firstVideo.title + ' - ' + firstVideo.duration + ' (' + firstVideo.type + ')';
+
+                // Populate video list
+                const videoListUl = document.getElementById('video-list-ul');
+                videoListUl.innerHTML = '';
+                data.videos.forEach((video, index) => {
+                    const li = document.createElement('li');
+                    li.className = 'video-item';
+                    li.innerHTML = `
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <strong>${video.title}</strong><br>
+                                <small class="text-gray-400">${video.duration} • ${video.type}</small>
+                            </div>
+                            <span class="text-lg">▶️</span>
+                        </div>
+                    `;
+                    li.onclick = () => showVideoModal(video);
+                    videoListUl.appendChild(li);
+                });
             }
         }
 
@@ -903,12 +927,12 @@
             const videoPlayer = document.getElementById('modal-video-player');
             const videoTitle = document.getElementById('modal-video-title');
             const videoDesc = document.getElementById('modal-video-desc');
-            
-            // Set YouTube embed URL
-            videoPlayer.src = `https://www.youtube.com/embed/${video.videoId}?autoplay=1&rel=0`;
+
+            // Set local video source
+            videoPlayer.src = video.src;
             videoTitle.textContent = video.title;
-            videoDesc.textContent = video.desc;
-            
+            videoDesc.textContent = video.title + ' - ' + video.duration + ' (' + video.type + ')';
+
             document.getElementById('video-modal').classList.add('active');
         }
 
