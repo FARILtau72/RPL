@@ -276,7 +276,11 @@
         <div class="min-h-screen flex flex-col items-center justify-center p-4">
             <!-- Header -->
             <div class="text-center mb-12">
-                <div class="text-6xl mb-4">🎮</div>
+                <!-- Two logo images replace the emoji; replace the src with your real logo paths -->
+                <div class="flex items-center justify-center space-x-4 mb-4">
+                    <img src="logo_tb.png" alt="Logo 1" class="w-24 h-24 object-contain border-4 border-black rounded-md image-rendering-pixelated" >
+                    <img src="logo_rpl.png" alt="Logo 2" class="w-24 h-24 object-contain border-4 border-black rounded-md image-rendering-pixelated" >
+                </div>
                 <h1 class="text-4xl md:text-6xl text-black mb-4 drop-shadow-lg">Sitamet</h1>
                 <h2 class="text-lg md:text-2xl text-gray-800 mb-2">Lorem ipsum Sit amet</h2>
                 <p class="text-sm md:text-lg text-gray-700">Lorem Ipsum </p>
@@ -288,18 +292,18 @@
                 <!-- Kelas 10 Button -->
                 <button onclick="navigateToClass('kelas10')" class="pixel-button pixel-button-blue w-full p-6 text-white text-xl md:text-2xl">
                     <div class="flex items-center justify-center space-x-4">
-                        <span class="text-4xl">🌱</span>
-                        <div class="text-left">
-                            <div>KELAS 10</div>
-                            <div class="text-sm opacity-75">DASAR PROGRAMMING</div>
+                            <img src="10.jpg" alt="Logo Kelas 10" loading="lazy" class="w-12 h-12 rounded-full border-2 border-black object-cover" />
+                            <div class="text-left">
+                                <div>KELAS 10</div>
+                                <div class="text-sm opacity-75">DASAR PROGRAMMING</div>
+                            </div>
                         </div>
-                    </div>
                 </button>
                 
                 <!-- Kelas 11 Button -->
                 <button onclick="navigateToClass('kelas11')" class="pixel-button pixel-button-green w-full p-6 text-white text-xl md:text-2xl">
                     <div class="flex items-center justify-center space-x-4">
-                        <span class="text-4xl">🚀</span>
+                        <img src="11/11.jpg" alt="Logo Kelas 11" loading="lazy" class="w-12 h-12 rounded-full border-2 border-black object-cover" />
                         <div class="text-left">
                             <div>KELAS 11</div>
                             <div class="text-sm opacity-75">PENGEMBANGAN APP</div>
@@ -310,7 +314,7 @@
                 <!-- Kelas 12 Button -->
                 <button onclick="navigateToClass('kelas12')" class="pixel-button pixel-button-purple w-full p-6 text-white text-xl md:text-2xl">
                     <div class="flex items-center justify-center space-x-4">
-                        <span class="text-4xl">🎓</span>
+                        <img src="12 rpl.jpg" alt="Logo Kelas 12" loading="lazy" class="w-12 h-12 rounded-full border-2 border-black object-cover" />
                         <div class="text-left">
                             <div>KELAS 12</div>
                             <div class="text-sm opacity-75">SPESIALISASI & PKL</div>
@@ -338,7 +342,9 @@
             
             <div class="flex flex-col items-center justify-center min-h-screen">
                 <div class="text-center mb-12">
-                    <div class="text-6xl mb-4">🌱</div>
+                    <div class="mb-4">
+                        <img src="https://via.placeholder.com/120x120.png?text=K10" alt="Logo Kelas 10" class="w-24 h-24 rounded-full border-4 border-black object-cover mx-auto" />
+                    </div>
                     <h1 class="text-3xl md:text-5xl text-black mb-4">KELAS 10 RPL</h1>
                     <p class="text-lg text-gray-800">FONDASI PEMROGRAMAN</p>
                 </div>
@@ -382,7 +388,9 @@
             
             <div class="flex flex-col items-center justify-center min-h-screen">
                 <div class="text-center mb-12">
-                    <div class="text-6xl mb-4">🚀</div>
+                    <div class="mb-4">
+                        <img src="https://via.placeholder.com/120x120.png?text=K11" alt="Logo Kelas 11" class="w-24 h-24 rounded-full border-4 border-black object-cover mx-auto" />
+                    </div>
                     <h1 class="text-3xl md:text-5xl text-black mb-4">KELAS 11 RPL</h1>
                     <p class="text-lg text-gray-800">PENGEMBANGAN APLIKASI</p>
                 </div>
@@ -426,7 +434,9 @@
             
             <div class="flex flex-col items-center justify-center min-h-screen">
                 <div class="text-center mb-12">
-                    <div class="text-6xl mb-4">🎓</div>
+                    <div class="mb-4">
+                        <img src="https://via.placeholder.com/120x120.png?text=K12" alt="Logo Kelas 12" class="w-24 h-24 rounded-full border-4 border-black object-cover mx-auto" />
+                    </div>
                     <h1 class="text-3xl md:text-5xl text-black mb-4">KELAS 12 RPL</h1>
                     <p class="text-lg text-gray-800">SPESIALISASI & PKL</p>
                 </div>
@@ -493,11 +503,18 @@
         </div>
     </div>
 
-    <!-- Photo Modal -->
+    <!-- Photo Modal (slideshow) -->
     <div id="photo-modal" class="photo-modal">
-        <div class="modal-content">
+        <div class="modal-content max-w-4xl w-full">
             <div class="modal-close" onclick="closePhotoModal()">×</div>
-            <div id="modal-emoji" class="text-8xl mb-4 text-center">📷</div>
+
+            <!-- Image area -->
+            <div id="modal-image-area" class="mb-4 flex items-center justify-center relative">
+                <button id="modal-prev" onclick="prevPhoto()" class="absolute left-0 ml-2 bg-white border-2 border-black px-3 py-2">◀</button>
+                <img id="modal-image" src="" alt="photo" class="max-w-[90vw] max-h-[70vh] border-4 border-black object-contain" />
+                <button id="modal-next" onclick="nextPhoto()" class="absolute right-0 mr-2 bg-white border-2 border-black px-3 py-2">▶</button>
+            </div>
+
             <h3 id="modal-title" class="text-xl font-bold mb-2 text-center">Photo Title</h3>
             <p id="modal-description" class="text-gray-600 mb-4 text-center">Photo description</p>
             <div class="text-center">
@@ -611,8 +628,11 @@
     </div>
 
     <script>
-        let currentClass = '';
-        let currentContent = '';
+    let currentClass = '';
+    let currentContent = '';
+    // Slideshow modal state
+    let modalPhotos = [];
+    let modalIndex = 0;
 
         // Content data
         const contentData = {
@@ -867,7 +887,8 @@
                     photoDiv.innerHTML = `
                         <div class="photo-title">${photo.title}</div>
                     `;
-                    photoDiv.onclick = () => showPhotoModal(photo);
+                    // Open slideshow modal at this index
+                    photoDiv.onclick = () => openPhotoModal(index, data.photos);
                     
                     // Add error handling for images
                     const img = new Image();
@@ -942,29 +963,38 @@
             document.getElementById('video-modal').classList.remove('active');
         }
 
-        function showPhotoModal(photo) {
-            const modalEmoji = document.getElementById('modal-emoji');
-            if (photo.image) {
-                modalEmoji.style.backgroundImage = `url('${photo.image}')`;
-                modalEmoji.style.backgroundSize = 'cover';
-                modalEmoji.style.backgroundPosition = 'center';
-                modalEmoji.style.width = '300px';
-                modalEmoji.style.height = '200px';
-                modalEmoji.style.border = '4px solid #000';
-                modalEmoji.style.margin = '0 auto';
-                modalEmoji.style.borderRadius = '8px';
-                modalEmoji.textContent = '';
-            } else {
-                modalEmoji.style.backgroundImage = 'none';
-                modalEmoji.style.width = 'auto';
-                modalEmoji.style.height = 'auto';
-                modalEmoji.style.border = 'none';
-                modalEmoji.style.borderRadius = '0';
-                modalEmoji.textContent = photo.emoji || '📷';
-            }
-            document.getElementById('modal-title').textContent = photo.title;
-            document.getElementById('modal-description').textContent = photo.desc;
+        // Open slideshow modal at given index with photos array
+        function openPhotoModal(index, photos) {
+            modalPhotos = photos || [];
+            modalIndex = index || 0;
+            updateModalPhoto();
             document.getElementById('photo-modal').classList.add('active');
+        }
+
+        function updateModalPhoto() {
+            if (!modalPhotos || modalPhotos.length === 0) return;
+            const photo = modalPhotos[modalIndex];
+            const img = document.getElementById('modal-image');
+            img.src = photo.image || '';
+            img.alt = photo.title || 'photo';
+            document.getElementById('modal-title').textContent = photo.title || '';
+            document.getElementById('modal-description').textContent = photo.desc || '';
+
+            // disable/enable nav buttons when at ends
+            document.getElementById('modal-prev').style.visibility = (modalIndex <= 0) ? 'hidden' : 'visible';
+            document.getElementById('modal-next').style.visibility = (modalIndex >= modalPhotos.length - 1) ? 'hidden' : 'visible';
+        }
+
+        function nextPhoto() {
+            if (!modalPhotos || modalPhotos.length === 0) return;
+            modalIndex = Math.min(modalIndex + 1, modalPhotos.length - 1);
+            updateModalPhoto();
+        }
+
+        function prevPhoto() {
+            if (!modalPhotos || modalPhotos.length === 0) return;
+            modalIndex = Math.max(modalIndex - 1, 0);
+            updateModalPhoto();
         }
 
         function closePhotoModal() {
@@ -983,6 +1013,16 @@
                     navigateBack();
                 } else if (currentClass) {
                     navigateToHome();
+                }
+            } else if (e.key === 'ArrowRight') {
+                // next photo in slideshow
+                if (document.getElementById('photo-modal').classList.contains('active')) {
+                    nextPhoto();
+                }
+            } else if (e.key === 'ArrowLeft') {
+                // previous photo in slideshow
+                if (document.getElementById('photo-modal').classList.contains('active')) {
+                    prevPhoto();
                 }
             }
         });
