@@ -3,16 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Website Profile Pixel</title>
+    <title>Rekayasa perangkat lunak</title>
+    <!-- Favicon: replace these files with your own in project root or adjust paths -->
+    <link rel="icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="logo_rpl.png">
+    <link rel="apple-touch-icon" href="logo_rpl.png">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,807;1,807&display=swap" rel="stylesheet">
     <style>
         body {
             box-sizing: border-box;
         }
         
         .pixel-font {
-            font-family: 'Press Start 2P', monospace;
+            font-family: 'Source Code Pro', monospace;
         }
         
         .pixel-bg {
@@ -24,7 +28,7 @@
         }
         
         .pixel-button {
-            background: linear-gradient(45deg, #ff6b6b 0%, #ff8e8e 50%, #ff6b6b 100%);
+            background: linear-gradient(45deg, green 0%, green 50%, green 100%);
             border: 4px solid #000;
             box-shadow: 
                 4px 4px 0px #000,
@@ -48,15 +52,15 @@
         }
         
         .pixel-button-blue {
-            background: linear-gradient(45deg, #4ecdc4 0%, #7fdbda 50%, #4ecdc4 100%);
+            background: linear-gradient(45deg,  yellow 35%, yellow 50%, yellow 100%);
         }
         
         .pixel-button-green {
-            background: linear-gradient(45deg, #95e1d3 0%, #b8e6d9 50%, #95e1d3 100%);
+            background: linear-gradient(45deg, blue 35%, blue 50%, blue 100%);
         }
         
         .pixel-button-purple {
-            background: linear-gradient(45deg, #a8e6cf 0%, #c7f0db 50%, #a8e6cf 100%);
+            background: linear-gradient(45deg, red 35%, red 50%, red 100%);
         }
         
         .pixel-card {
@@ -73,23 +77,25 @@
             border-image: url("data:image/svg+xml,%3csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='m0,0 L100,0 L100,100 L0,100 z' fill='none' stroke='black' stroke-width='2'/%3e%3c/svg%3e") 2;
         }
         
-        .screen-wipe {
+        /* TV turn-off effect */
+        .page-transition {
             position: fixed;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, 
-                transparent 0%, 
-                #000 20%, 
-                #000 80%, 
-                transparent 100%);
+            top: 50%;
+            left: 50%;
+            width: 100vh;
+            height: 100vh;
+            background: black;
+            border-radius: 50%;
             z-index: 9999;
-            transition: left 0.5s ease-in-out;
+            transform: translate(-50%, -50%) scale(2);
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.4s cubic-bezier(0.33, 1, 0.68, 1);
         }
         
-        .screen-wipe.active {
-            left: 100%;
+        .page-transition.active {
+            transform: translate(-50%, -50%) scale(0.01);
+            opacity: 1;
         }
         
         .page {
@@ -268,8 +274,8 @@
     </style>
 </head>
 <body class="pixel-font bg-gradient-to-br from-blue-200 via-purple-200 to-pink-200 pixel-bg">
-    <!-- Screen Wipe Transition -->
-    <div id="screen-wipe" class="screen-wipe"></div>
+    <!-- Circle Transition Animation -->
+    <div id="page-transition" class="page-transition"></div>
 
     <!-- Level 1: Home Page -->
     <div id="home-page" class="page active">
@@ -278,13 +284,13 @@
             <div class="text-center mb-12">
                 <!-- Two logo images replace the emoji; replace the src with your real logo paths -->
                 <div class="flex items-center justify-center space-x-4 mb-4">
-                    <img src="logo_tb.png" alt="Logo 1" class="w-24 h-24 object-contain border-4 border-black rounded-md image-rendering-pixelated" >
-                    <img src="logo_rpl.png" alt="Logo 2" class="w-24 h-24 object-contain border-4 border-black rounded-md image-rendering-pixelated" >
+                    <img src="logo_tb.png" alt="Logo 1" class="w-24 h-24 " >
+                    <img src="logo_rpl.png" alt="Logo 2" class="w-24 h-24 " >
                 </div>
-                <h1 class="text-4xl md:text-6xl text-black mb-4 drop-shadow-lg">Sitamet</h1>
-                <h2 class="text-lg md:text-2xl text-gray-800 mb-2">Lorem ipsum Sit amet</h2>
-                <p class="text-sm md:text-lg text-gray-700">Lorem Ipsum </p>
-                <div class="mt-4 text-xs text-gray-600">Lorem Ipsum</div>
+                <h1 class="text-4xl md:text-6xl text-black mb-4 drop-shadow-lg">Selamat datang</h1>
+                <h2 class="text-lg md:text-2xl text-gray-800 mb-2">Website Profile rekayasa perangkat lunak</h2>
+                <p class="text-sm md:text-lg text-gray-700">SMKS TARUNA BANGSA</p>
+                <div class="mt-4 text-xs text-gray-600"></div>
             </div>
             
             <!-- Main Menu Buttons -->
@@ -295,7 +301,7 @@
                             <img src="10.jpg" alt="Logo Kelas 10" loading="lazy" class="w-12 h-12 rounded-full border-2 border-black object-cover" />
                             <div class="text-left">
                                 <div>KELAS 10</div>
-                                <div class="text-sm opacity-75">DASAR PROGRAMMING</div>
+                                <div class="text-sm opacity-75"></div>
                             </div>
                         </div>
                 </button>
@@ -306,7 +312,7 @@
                         <img src="11/11.jpg" alt="Logo Kelas 11" loading="lazy" class="w-12 h-12 rounded-full border-2 border-black object-cover" />
                         <div class="text-left">
                             <div>KELAS 11</div>
-                            <div class="text-sm opacity-75">PENGEMBANGAN APP</div>
+                            <div class="text-sm opacity-75"></div>
                         </div>
                     </div>
                 </button>
@@ -317,17 +323,13 @@
                         <img src="12 rpl.jpg" alt="Logo Kelas 12" loading="lazy" class="w-12 h-12 rounded-full border-2 border-black object-cover" />
                         <div class="text-left">
                             <div>KELAS 12</div>
-                            <div class="text-sm opacity-75">SPESIALISASI & PKL</div>
+                            <div class="text-sm opacity-75"></div>
                         </div>
                     </div>
                 </button>
             </div>
             
-            <!-- Footer Info -->
-            <div class="mt-12 text-center text-xs text-gray-600">
-                <p>BY REKAYASA PERANGKAT LUNAK NASA</p>
-                <p class="mt-2">© 2025 Farildev</p>
-            </div>
+            <!-- Footer Info (moved to end of document) -->
         </div>
     </div>
 
@@ -343,7 +345,7 @@
             <div class="flex flex-col items-center justify-center min-h-screen">
                 <div class="text-center mb-12">
                     <div class="mb-4">
-                        <img src="https://via.placeholder.com/120x120.png?text=K10" alt="Logo Kelas 10" class="w-24 h-24 rounded-full border-4 border-black object-cover mx-auto" />
+                        <img src="10.jpg" alt="Logo Kelas 10" class="w-24 h-24 rounded-full border-4 border-black object-cover mx-auto" />
                     </div>
                     <h1 class="text-3xl md:text-5xl text-black mb-4">KELAS 10 RPL</h1>
                     <p class="text-lg text-gray-800">FONDASI PEMROGRAMAN</p>
@@ -389,7 +391,7 @@
             <div class="flex flex-col items-center justify-center min-h-screen">
                 <div class="text-center mb-12">
                     <div class="mb-4">
-                        <img src="https://via.placeholder.com/120x120.png?text=K11" alt="Logo Kelas 11" class="w-24 h-24 rounded-full border-4 border-black object-cover mx-auto" />
+                        <img src="11/11.jpg" alt="Logo Kelas 11" class="w-24 h-24 rounded-full border-4 border-black object-cover mx-auto" />
                     </div>
                     <h1 class="text-3xl md:text-5xl text-black mb-4">KELAS 11 RPL</h1>
                     <p class="text-lg text-gray-800">PENGEMBANGAN APLIKASI</p>
@@ -435,7 +437,7 @@
             <div class="flex flex-col items-center justify-center min-h-screen">
                 <div class="text-center mb-12">
                     <div class="mb-4">
-                        <img src="https://via.placeholder.com/120x120.png?text=K12" alt="Logo Kelas 12" class="w-24 h-24 rounded-full border-4 border-black object-cover mx-auto" />
+                        <img src="12 rpl.jpg" alt="Logo Kelas 12" class="w-24 h-24 rounded-full border-4 border-black object-cover mx-auto" />
                     </div>
                     <h1 class="text-3xl md:text-5xl text-black mb-4">KELAS 12 RPL</h1>
                     <p class="text-lg text-gray-800">SPESIALISASI & PKL</p>
@@ -627,9 +629,9 @@
         </div>
     </div>
 
+    
+
     <script>
-    let currentClass = '';
-    let currentContent = '';
     // Slideshow modal state
     let modalPhotos = [];
     let modalIndex = 0;
@@ -651,7 +653,15 @@
                         { image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=400", title: "Team Work", desc: "Kerja sama tim dalam mengerjakan project kelompok" },
                         { image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?w=400", title: "Project Demo", desc: "Demo hasil project di akhir semester" },
                         { image: "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=400", title: "Debug Session", desc: "Sesi debugging bersama untuk memecahkan masalah code" },
-                        { image: "https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?w=400", title: "Problem Solving", desc: "Latihan logika dan pemecahan masalah programming" }
+                        { image: "https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?w=400", title: "Problem Solving", desc: "Latihan logika dan pemecahan masalah programming" },
+                        { image: "https://images.unsplash.com/photo-1531538606174-0f90ff5dce83?w=400", title: "Git Workshop", desc: "Belajar version control dengan Git dan GitHub" },
+                        { image: "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=400", title: "Network Setup", desc: "Praktik konfigurasi jaringan komputer dasar" },
+                        { image: "https://images.unsplash.com/photo-1555099962-4199c345e5dd?w=400", title: "Visual Studio Code", desc: "Mengenal IDE dan tools development modern" },
+                        { image: "https://images.unsplash.com/photo-1560762484-813fc97650a0?w=400", title: "Team Building", desc: "Aktivitas membangun kerjasama tim" },
+                        { image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=400", title: "Python Basic", desc: "Pengenalan bahasa pemrograman Python" },
+                        { image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=400", title: "Data Structure", desc: "Belajar struktur data dan algoritma dasar" },
+                        { image: "https://images.unsplash.com/photo-1535551951406-a19828b0a76b?w=400", title: "Presentation Day", desc: "Presentasi project akhir semester" },
+                        { image: "https://images.unsplash.com/photo-1536148935331-408321065b18?w=400", title: "Study Group", desc: "Sesi belajar kelompok di lab komputer" }
                     ]
                 },
                 materi: {
@@ -682,7 +692,7 @@
                 video: {
                     description: "Video pembelajaran dan perkenalan untuk kelas 10",
                     videos: [
-                        { title: "🎬 Perkenalan Jurusan RPL", duration: "15:30", type: "Orientasi", src: "videos/10/video1.mp4" },
+                        { title: "🎬 Perkenalan Jurusan RPL", duration: "15:30", type: "Orientasi", src: "io.mp4" },
                         { title: "💻 Dasar-dasar HTML", duration: "25:45", type: "Tutorial", src: "videos/10/video2.mp4" },
                         { title: "🎨 CSS untuk Pemula", duration: "30:20", type: "Tutorial", src: "videos/10/video3.mp4" },
                         { title: "📊 Algoritma Sederhana", duration: "20:15", type: "Materi", src: "videos/10/video4.mp4" },
@@ -706,7 +716,15 @@
                         { image: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=400", title: "Scrum Meeting", desc: "Daily standup meeting menggunakan metodologi Agile" },
                         { image: "https://images.unsplash.com/photo-1556075798-4825dfaaf498?w=400", title: "Git Collaboration", desc: "Belajar version control dan kolaborasi tim dengan Git" },
                         { image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400", title: "Data Dashboard", desc: "Membuat dashboard interaktif dengan Chart.js dan D3" },
-                        { image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=400", title: "Cloud Deployment", desc: "Deploy aplikasi ke AWS dan Google Cloud Platform" }
+                        { image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=400", title: "Cloud Deployment", desc: "Deploy aplikasi ke AWS dan Google Cloud Platform" },
+                        { image: "https://images.unsplash.com/photo-1553877522-43269d4ea984?w=400", title: "React Development", desc: "Pengembangan aplikasi modern dengan React.js" },
+                        { image: "https://images.unsplash.com/photo-1557853197-aefb550b6fdc?w=400", title: "Mobile Testing", desc: "Quality assurance untuk aplikasi Android" },
+                        { image: "https://images.unsplash.com/photo-1563986768494-4dee2763ff3f?w=400", title: "Security Workshop", desc: "Pembelajaran keamanan aplikasi web" },
+                        { image: "https://images.unsplash.com/photo-1552664688-cf412ec27db2?w=400", title: "Team Project", desc: "Kolaborasi tim dalam project besar" },
+                        { image: "https://images.unsplash.com/photo-1590479773265-7464e5d48118?w=400", title: "Code Review", desc: "Sesi review kode dan optimisasi" },
+                        { image: "https://images.unsplash.com/photo-1533750349088-cd871a92f312?w=400", title: "UX Research", desc: "Riset pengalaman pengguna aplikasi" },
+                        { image: "https://images.unsplash.com/photo-1553084117-8a598d2b84b4?w=400", title: "Tech Talk", desc: "Seminar teknologi terbaru" },
+                        { image: "https://images.unsplash.com/photo-1552581234-26160f608093?w=400", title: "Sprint Review", desc: "Evaluasi sprint dan planning" }
                     ]
                 },
                 materi: {
@@ -761,7 +779,15 @@
                         { image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=400", title: "AI & Data Science", desc: "Eksplorasi machine learning dengan Python" },
                         { image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=400", title: "Cybersecurity", desc: "Workshop keamanan aplikasi dan ethical hacking" },
                         { image: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=400", title: "Startup Pitch", desc: "Kompetisi presentasi ide bisnis teknologi" },
-                        { image: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=400", title: "Alumni Success", desc: "Testimoni perjalanan 3 tahun di RPL Taruna Bangsa" }
+                        { image: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=400", title: "Alumni Success", desc: "Testimoni perjalanan 3 tahun di RPL Taruna Bangsa" },
+                        { image: "https://images.unsplash.com/photo-1553877522-43269d4ea984?w=400", title: "Microservices", desc: "Pengembangan arsitektur microservices" },
+                        { image: "https://images.unsplash.com/photo-1557426272-fc759fdf7a8d?w=400", title: "DevOps Culture", desc: "Implementasi praktik DevOps di industri" },
+                        { image: "https://images.unsplash.com/photo-1569012871812-f38ee64cd54c?w=400", title: "Tech Interview", desc: "Persiapan wawancara kerja IT" },
+                        { image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=400", title: "Innovation Lab", desc: "Lab inovasi teknologi terbaru" },
+                        { image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=400", title: "System Design", desc: "Desain sistem skala enterprise" },
+                        { image: "https://images.unsplash.com/photo-1552581234-26160f608093?w=400", title: "Career Path", desc: "Mentoring karir di industri IT" },
+                        { image: "https://images.unsplash.com/photo-1559028012-481c04fa702d?w=400", title: "Startup Weekend", desc: "Hackathon pengembangan startup" },
+                        { image: "https://images.unsplash.com/photo-1562577309-4932fdd64cd1?w=400", title: "Industry Visit", desc: "Kunjungan ke perusahaan IT" }
                     ]
                 },
                 materi: {
@@ -811,46 +837,79 @@
         };
 
         // Navigation functions
+        function createTVEffect() {
+            const transition = document.getElementById('page-transition');
+            transition.style.display = 'block';
+            return transition;
+        }
+
+        function navigateWithTransition(fromElement, toElement) {
+            const transition = createTVEffect();
+            
+            // Start shrinking animation
+            requestAnimationFrame(() => {
+                transition.classList.add('active');
+                
+                setTimeout(() => {
+                    // Switch pages when circle is smallest
+                    fromElement.classList.remove('active');
+                    toElement.classList.add('active');
+                    
+                    // Reset transition for next use
+                    setTimeout(() => {
+                        transition.classList.remove('active');
+                        transition.style.display = 'none';
+                    }, 100);
+                }, 300);
+            });
+        }
+
         function navigateToHome() {
-            screenWipe(() => {
-                hideAllPages();
-                document.getElementById('home-page').classList.add('active');
+            if (currentClass) {
+                const fromPage = document.getElementById(currentClass + '-page');
+                const toPage = document.getElementById('home-page');
+                navigateWithTransition(fromPage, toPage);
                 currentClass = '';
                 currentContent = '';
-            });
+            }
         }
 
         function navigateToClass(className) {
-            screenWipe(() => {
-                hideAllPages();
-                document.getElementById(className + '-page').classList.add('active');
-                currentClass = className;
-            });
+            const fromPage = document.getElementById('home-page');
+            const toPage = document.getElementById(className + '-page');
+            navigateWithTransition(fromPage, toPage);
+            currentClass = className;
         }
 
         function navigateToContent(className, contentType) {
-            screenWipe(() => {
-                hideAllPages();
-                currentClass = className;
-                currentContent = contentType;
-                
-                // Update breadcrumbs
-                const classNumber = className.replace('kelas', '');
-                document.getElementById(contentType + '-breadcrumb-class').textContent = 'KELAS ' + classNumber;
-                
-                // Load content
-                loadContent(className, contentType);
-                
-                // Show content page
-                document.getElementById(contentType + '-content').classList.add('active');
-            });
+            const fromPage = document.getElementById(className + '-page');
+            const toPage = document.getElementById(contentType + '-content');
+            
+            currentClass = className;
+            currentContent = contentType;
+            
+            // Update breadcrumbs
+            const classNumber = className.replace('kelas', '');
+            document.getElementById(contentType + '-breadcrumb-class').textContent = 'KELAS ' + classNumber;
+            
+            // Load content
+            loadContent(className, contentType);
+            
+            // Perform transition
+            navigateWithTransition(fromPage, toPage);
         }
 
         function navigateBack() {
-            if (currentClass) {
-                navigateToClass(currentClass);
-            } else {
-                navigateToHome();
+            if (currentContent) {
+                const fromPage = document.getElementById(currentContent + '-content');
+                const toPage = document.getElementById(currentClass + '-page');
+                navigateWithTransition(fromPage, toPage);
+                currentContent = '';
+            } else if (currentClass) {
+                const fromPage = document.getElementById(currentClass + '-page');
+                const toPage = document.getElementById('home-page');
+                navigateWithTransition(fromPage, toPage);
+                currentClass = '';
             }
         }
 
@@ -858,18 +917,6 @@
             document.querySelectorAll('.page').forEach(page => {
                 page.classList.remove('active');
             });
-        }
-
-        function screenWipe(callback) {
-            const wipe = document.getElementById('screen-wipe');
-            wipe.classList.add('active');
-            
-            setTimeout(() => {
-                callback();
-                setTimeout(() => {
-                    wipe.classList.remove('active');
-                }, 100);
-            }, 250);
         }
 
         function loadContent(className, contentType) {
@@ -1053,5 +1100,13 @@
             }
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9941f2c7c2b0fd02',t:'MTc2MTM5Nzc2Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
-</html>
+    <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9941f2c7c2b0fd02',t:'MTc2MTM5Nzc2Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+
+    <!-- Site-wide Footer -->
+    <footer id="site-footer" class="mt-8 text-center text-xs text-gray-600 border-t-2 border-black p-3 bg-white/60">
+        <p class="m-0">BY REKAYASA PERANGKAT LUNAK NASA</p>
+        <p class="mt-2 m-0">© 2025 TEAM WEB DEEVELOPER UNIT PRODUKSI</p>
+    </footer>
+
+    </body>
+    </html>
