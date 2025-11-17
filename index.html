@@ -271,11 +271,142 @@
             border: 2px solid #333;
             margin-bottom: 1rem;
         }
+
+        /* Dark Mode Styles */
+        .dark-mode {
+            background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+            color: #e2e8f0;
+        }
+
+        .dark-mode .pixel-bg {
+            background-image:
+                radial-gradient(circle at 25% 25%, #00ffff 2px, transparent 2px),
+                radial-gradient(circle at 75% 75%, #ff00ff 2px, transparent 2px);
+        }
+
+        .dark-mode .pixel-card {
+            background: #2d3748;
+            border-color: #4a5568;
+        }
+
+        .dark-mode .pixel-button {
+            background: linear-gradient(45deg, #2b6cb0 0%, #2c5282 50%, #2a4365 100%);
+            border-color: #4a5568;
+            box-shadow:
+                4px 4px 0px #4a5568,
+                8px 8px 0px rgba(74, 85, 104, 0.3);
+        }
+
+        .dark-mode .pixel-button:hover {
+            box-shadow:
+                2px 2px 0px #4a5568,
+                4px 4px 0px rgba(74, 85, 104, 0.3);
+        }
+
+        .dark-mode .pixel-button:active {
+            box-shadow: none;
+        }
+
+        .dark-mode .pixel-button-blue {
+            background: linear-gradient(45deg, #fbbf24 35%, #f59e0b 50%, #d97706 100%);
+        }
+
+        .dark-mode .pixel-button-green {
+            background: linear-gradient(45deg, #38a169 35%, #2f855a 50%, #22543d 100%);
+        }
+
+        .dark-mode .pixel-button-purple {
+            background: linear-gradient(45deg, #805ad5 35%, #6b46c1 50%, #553c9a 100%);
+        }
+
+        .dark-mode .dialog-box {
+            background: #2d3748;
+            border-color: #4a5568;
+        }
+
+        .dark-mode .dialog-box::after {
+            border-top-color: #2d3748;
+        }
+
+        .dark-mode .terminal-text {
+            background: #1a202c;
+            border-color: #2d3748;
+        }
+
+        .dark-mode .video-list {
+            background: #2d3748;
+            border-color: #4a5568;
+        }
+
+        .dark-mode .video-item:hover {
+            background: #4a5568;
+        }
+
+        .dark-mode .breadcrumb {
+            background: #1a202c;
+            border-color: #4a5568;
+        }
+
+        .dark-mode .photo-modal {
+            background: rgba(0,0,0,0.95);
+        }
+
+        .dark-mode .modal-content {
+            background: #2d3748;
+            border-color: #4a5568;
+        }
+
+        .dark-mode .modal-close {
+            background: #e53e3e;
+            border-color: #4a5568;
+        }
+
+        .dark-mode #site-footer {
+            background: rgba(45, 55, 72, 0.6);
+            color: #a0aec0;
+        }
+
+        /* Dark mode toggle button */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: linear-gradient(45deg, #2b6cb0, #2c5282);
+            border: 4px solid #000;
+            box-shadow: 4px 4px 0px #000, 8px 8px 0px rgba(0,0,0,0.3);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            transition: all 0.2s ease;
+            image-rendering: pixelated;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 4px 4px 0px #000, 8px 8px 0px rgba(0,0,0,0.4);
+        }
+
+        .theme-toggle:active {
+            transform: scale(0.95);
+        }
+
+        .dark-mode .theme-toggle {
+            background: linear-gradient(45deg, #fbbf24, #f59e0b);
+        }
     </style>
 </head>
 <body class="pixel-font bg-gradient-to-br from-blue-200 via-purple-200 to-pink-200 pixel-bg">
     <!-- Circle Transition Animation -->
     <div id="page-transition" class="page-transition"></div>
+
+    <!-- Dark Mode Toggle Button -->
+    <button id="theme-toggle" class="theme-toggle" onclick="toggleDarkMode()">🌙</button>
 
     <!-- Level 1: Home Page -->
     <div id="home-page" class="page active">
@@ -1099,6 +1230,21 @@
                 playButtonSound();
             }
         });
+
+        // Dark mode toggle function
+        function toggleDarkMode() {
+            const body = document.body;
+            const toggleButton = document.getElementById('theme-toggle');
+
+            body.classList.toggle('dark-mode');
+
+            // Update button icon
+            if (body.classList.contains('dark-mode')) {
+                toggleButton.innerHTML = '☀️'; // Sun icon for light mode
+            } else {
+                toggleButton.innerHTML = '🌙'; // Moon icon for dark mode
+            }
+        }
     </script>
     <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9941f2c7c2b0fd02',t:'MTc2MTM5Nzc2Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
 
