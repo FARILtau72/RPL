@@ -1454,6 +1454,57 @@
             document.getElementById('photo-modal').classList.remove('active');
         }
 
+        // Touch & pointer swipe support for photo modal (touchscreen)
+        (function() {
+            const modal = document.getElementById('photo-modal');
+            if (!modal) return;
+
+            let startX = 0, startY = 0, endX = 0, endY = 0;
+            const threshold = 50; // minimum px for a swipe
+            const verticalLimit = 120; // max vertical movement to consider swipe
+
+            modal.addEventListener('touchstart', (e) => {
+                const t = e.touches[0];
+                startX = t.clientX; startY = t.clientY; endX = startX; endY = startY;
+            }, { passive: true });
+
+            modal.addEventListener('touchmove', (e) => {
+                const t = e.touches[0];
+                endX = t.clientX; endY = t.clientY;
+            }, { passive: true });
+
+            modal.addEventListener('touchend', () => {
+                const dx = endX - startX;
+                const dy = endY - startY;
+                if (Math.abs(dx) > threshold && Math.abs(dy) < verticalLimit) {
+                    if (dx < 0) nextPhoto(); else prevPhoto();
+                }
+                startX = startY = endX = endY = 0;
+            });
+
+            // Pointer (mouse) drag support for desktop-like devices
+            let pointerDown = false;
+            modal.addEventListener('pointerdown', (e) => {
+                pointerDown = true; startX = e.clientX; startY = e.clientY; endX = startX; endY = startY;
+                try { modal.setPointerCapture(e.pointerId); } catch (err) {}
+            });
+
+            modal.addEventListener('pointermove', (e) => {
+                if (!pointerDown) return; endX = e.clientX; endY = e.clientY;
+            });
+
+            modal.addEventListener('pointerup', (e) => {
+                if (!pointerDown) return; pointerDown = false;
+                try { modal.releasePointerCapture(e.pointerId); } catch (err) {}
+                const dx = endX - startX;
+                const dy = endY - startY;
+                if (Math.abs(dx) > threshold && Math.abs(dy) < verticalLimit) {
+                    if (dx < 0) nextPhoto(); else prevPhoto();
+                }
+                startX = startY = endX = endY = 0;
+            });
+        })();
+
         // Add keyboard navigation
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
