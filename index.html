@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rekayasa perangkat lunak</title>
-    <!-- Favicon: replace these files with your own in project root or adjust paths -->
+    <title>RPL NASA</title>
+    <!-- Favicon: replace these files with your own in projeclt root or adjust paths -->
     <link rel="icon" href="favicon.ico">
     <link rel="icon" type="image/png" sizes="32x32" href="logo_rpl.png">
     <link rel="apple-touch-icon" href="logo_rpl.png">
@@ -272,6 +272,56 @@
             margin-bottom: 1rem;
         }
 
+        /* Language button active state */
+        .lang-active {
+            background: #000 !important;
+            color: #fff !important;
+        }
+
+        /* Music player playlist (removed) */
+
+        .theme-toggle {
+            position: fixed;
+            right: 3rem;
+            top: 0.8rem;
+            z-index: 60;
+            background: white;
+            border: 2px solid #000;
+            padding: 6px 8px;
+            border-radius: 6px;
+        }
+
+        /* Dark mode styles */
+        .dark-mode {
+            background: linear-gradient(180deg, #0f172a, #001219) !important;
+            color: #e6eef8;
+        }
+
+        .dark-mode .page {
+            color: #e6eef8;
+        }
+
+        .dark-mode .pixel-card,
+        .dark-mode .breadcrumb,
+        .dark-mode .pixel-photo {
+            background: #071028 !important;
+            color: #e6eef8 !important;
+            border-color: #123 !important;
+        }
+
+        .dark-mode .pixel-button {
+            filter: brightness(0.9);
+            color: #fff;
+        }
+
+        .dark-mode .theme-toggle {
+            background: #0b1220;
+            color: #e6eef8;
+            border-color: #234;
+        }
+
+        /* playlist highlight (removed) */
+
         /* Dark Mode Styles */
         .dark-mode {
             background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
@@ -405,6 +455,16 @@
     <!-- Circle Transition Animation -->
     <div id="page-transition" class="page-transition"></div>
 
+    <!-- Top bar: language toggle -->
+    <div id="top-controls" class="fixed top-3 right-3 z-50 flex items-center space-x-3">
+        <div class="flex items-center space-x-1 bg-white/80 border-2 border-black rounded px-2 py-1">
+            <button id="lang-id" class="px-2 py-1 text-sm font-bold">ID</button>
+            <button id="lang-en" class="px-2 py-1 text-sm font-bold">EN</button>
+        </div>
+    </div>
+
+    <!-- Background music removed -->
+
     <!-- Dark Mode Toggle Button -->
     <button id="theme-toggle" class="theme-toggle" onclick="toggleDarkMode()">🌙</button>
 
@@ -418,9 +478,9 @@
                     <img src="logo_tb.png" alt="Logo 1" class="w-24 h-24 " >
                     <img src="logo_rpl.png" alt="Logo 2" class="w-24 h-24 " >
                 </div>
-                <h1 class="text-4xl md:text-6xl text-black mb-4 drop-shadow-lg">Selamat datang</h1>
-                <h2 class="text-lg md:text-2xl text-gray-800 mb-2">Website Profile rekayasa perangkat lunak</h2>
-                <p class="text-sm md:text-lg text-gray-700">SMKS TARUNA BANGSA</p>
+                <h1 data-i18n="home.title" class="text-4xl md:text-6xl text-black mb-4 drop-shadow-lg">Selamat datang</h1>
+                <h2 data-i18n="home.subtitle" class="text-lg md:text-2xl text-gray-800 mb-2">Website Profile rekayasa perangkat lunak</h2>
+                <p data-i18n="home.school" class="text-sm md:text-lg text-gray-700">SMKS TARUNA BANGSA</p>
                 <div class="mt-4 text-xs text-gray-600"></div>
             </div>
             
@@ -431,8 +491,8 @@
                     <div class="flex items-center justify-center space-x-4">
                             <img src="10.jpg" alt="Logo Kelas 10" loading="lazy" class="w-12 h-12 rounded-full border-2 border-black object-cover" />
                             <div class="text-left">
-                                <div>KELAS 10</div>
-                                <div class="text-sm opacity-75"></div>
+                                <div data-i18n="kelas10.title">KELAS 10</div>
+                                <div data-i18n="kelas10.subtitle" class="text-sm opacity-75"></div>
                             </div>
                         </div>
                 </button>
@@ -442,8 +502,8 @@
                     <div class="flex items-center justify-center space-x-4">
                         <img src="11/11.jpg" alt="Logo Kelas 11" loading="lazy" class="w-12 h-12 rounded-full border-2 border-black object-cover" />
                         <div class="text-left">
-                            <div>KELAS 11</div>
-                            <div class="text-sm opacity-75"></div>
+                            <div data-i18n="kelas11.title">KELAS 11</div>
+                            <div data-i18n="kelas11.subtitle" class="text-sm opacity-75"></div>
                         </div>
                     </div>
                 </button>
@@ -453,8 +513,8 @@
                     <div class="flex items-center justify-center space-x-4">
                         <img src="12 rpl.jpg" alt="Logo Kelas 12" loading="lazy" class="w-12 h-12 rounded-full border-2 border-black object-cover" />
                         <div class="text-left">
-                            <div>KELAS 12</div>
-                            <div class="text-sm opacity-75"></div>
+                            <div data-i18n="kelas12.title">KELAS 12</div>
+                            <div data-i18n="kelas12.subtitle" class="text-sm opacity-75"></div>
                         </div>
                     </div>
                 </button>
@@ -469,8 +529,8 @@
     <div id="kelas10-page" class="page">
         <div class="min-h-screen p-4">
             <!-- Breadcrumb -->
-            <div class="breadcrumb text-sm">
-                <span onclick="navigateToHome()" class="cursor-pointer hover:text-yellow-400">HOME</span> > KELAS 10
+                <div class="breadcrumb text-sm">
+                <span onclick="navigateToHome()" class="cursor-pointer hover:text-yellow-400" data-i18n="breadcrumb.home">HOME</span> > KELAS 10
             </div>
             
             <div class="flex flex-col items-center justify-center min-h-screen">
@@ -479,28 +539,28 @@
                         <img src="10.jpg" alt="Logo Kelas 10" class="w-24 h-24 rounded-full border-4 border-black object-cover mx-auto" />
                     </div>
                     <h1 class="text-3xl md:text-5xl text-black mb-4">KELAS 10 RPL</h1>
-                    <p class="text-lg text-gray-800">FONDASI PEMROGRAMAN</p>
+                    <p class="text-lg text-gray-800">IT ESSENTIAL</p>
                 </div>
                 
                 <div class="grid gap-6 max-w-xl w-full">
                     <button onclick="navigateToContent('kelas10', 'galeri')" class="pixel-button w-full p-4 text-white text-lg">
                         <div class="flex items-center justify-center space-x-3">
                             <span class="text-3xl">📸</span>
-                            <span>GALERI</span>
+                            <span data-i18n="btn.galeri">GALERI</span>
                         </div>
                     </button>
                     
                     <button onclick="navigateToContent('kelas10', 'materi')" class="pixel-button pixel-button-blue w-full p-4 text-white text-lg">
                         <div class="flex items-center justify-center space-x-3">
                             <span class="text-3xl">📚</span>
-                            <span>MATERI</span>
+                            <span data-i18n="btn.materi">MATERI</span>
                         </div>
                     </button>
                     
                     <button onclick="navigateToContent('kelas10', 'video')" class="pixel-button pixel-button-green w-full p-4 text-white text-lg">
                         <div class="flex items-center justify-center space-x-3">
                             <span class="text-3xl">🎥</span>
-                            <span>VIDEO</span>
+                            <span data-i18n="btn.video">VIDEO</span>
                         </div>
                     </button>
                 </div>
@@ -516,7 +576,7 @@
     <div id="kelas11-page" class="page">
         <div class="min-h-screen p-4">
             <div class="breadcrumb text-sm">
-                <span onclick="navigateToHome()" class="cursor-pointer hover:text-yellow-400">HOME</span> > KELAS 11
+                <span onclick="navigateToHome()" class="cursor-pointer hover:text-yellow-400" data-i18n="breadcrumb.home">HOME</span> > KELAS 11
             </div>
             
             <div class="flex flex-col items-center justify-center min-h-screen">
@@ -532,21 +592,21 @@
                     <button onclick="navigateToContent('kelas11', 'galeri')" class="pixel-button w-full p-4 text-white text-lg">
                         <div class="flex items-center justify-center space-x-3">
                             <span class="text-3xl">📸</span>
-                            <span>GALERI</span>
+                            <span data-i18n="btn.galeri">GALERI</span>
                         </div>
                     </button>
                     
                     <button onclick="navigateToContent('kelas11', 'materi')" class="pixel-button pixel-button-blue w-full p-4 text-white text-lg">
                         <div class="flex items-center justify-center space-x-3">
                             <span class="text-3xl">📚</span>
-                            <span>MATERI</span>
+                            <span data-i18n="btn.materi">MATERI</span>
                         </div>
                     </button>
                     
                     <button onclick="navigateToContent('kelas11', 'video')" class="pixel-button pixel-button-green w-full p-4 text-white text-lg">
                         <div class="flex items-center justify-center space-x-3">
                             <span class="text-3xl">🎥</span>
-                            <span>VIDEO</span>
+                            <span data-i18n="btn.video">VIDEO</span>
                         </div>
                     </button>
                 </div>
@@ -562,7 +622,7 @@
     <div id="kelas12-page" class="page">
         <div class="min-h-screen p-4">
             <div class="breadcrumb text-sm">
-                <span onclick="navigateToHome()" class="cursor-pointer hover:text-yellow-400">HOME</span> > KELAS 12
+                <span onclick="navigateToHome()" class="cursor-pointer hover:text-yellow-400" data-i18n="breadcrumb.home">HOME</span> > KELAS 12
             </div>
             
             <div class="flex flex-col items-center justify-center min-h-screen">
@@ -578,21 +638,21 @@
                     <button onclick="navigateToContent('kelas12', 'galeri')" class="pixel-button w-full p-4 text-white text-lg">
                         <div class="flex items-center justify-center space-x-3">
                             <span class="text-3xl">📸</span>
-                            <span>GALERI</span>
+                            <span data-i18n="btn.galeri">GALERI</span>
                         </div>
                     </button>
                     
                     <button onclick="navigateToContent('kelas12', 'materi')" class="pixel-button pixel-button-blue w-full p-4 text-white text-lg">
                         <div class="flex items-center justify-center space-x-3">
                             <span class="text-3xl">📚</span>
-                            <span>MATERI</span>
+                            <span data-i18n="btn.materi">MATERI</span>
                         </div>
                     </button>
                     
                     <button onclick="navigateToContent('kelas12', 'video')" class="pixel-button pixel-button-green w-full p-4 text-white text-lg">
                         <div class="flex items-center justify-center space-x-3">
                             <span class="text-3xl">🎥</span>
-                            <span>VIDEO</span>
+                            <span data-i18n="btn.video">VIDEO</span>
                         </div>
                     </button>
                 </div>
@@ -675,6 +735,13 @@
             <div class="text-center">
                 <h3 id="modal-video-title" class="text-xl font-bold mb-2">Video Title</h3>
                 <p id="modal-video-desc" class="text-gray-600 mb-4">Video description</p>
+                <div id="video-error" style="display:none; margin-bottom:8px; color:#b91c1c;">
+                    <div id="video-error-msg">Error loading video.</div>
+                    <div class="mt-2">
+                        <button id="video-retry" class="pixel-button px-2 py-1 text-xs">Retry</button>
+                        <button id="video-close-error" class="pixel-button px-2 py-1 text-xs ml-2">Close</button>
+                    </div>
+                </div>
                 <button onclick="closeVideoModal()" class="pixel-button px-4 py-2 text-white">
                     CLOSE
                 </button>
@@ -956,7 +1023,7 @@
                 video: {
                     description: "Video testimoni alumni dan panduan karir",
                     videos: [
-                        { title: "🎓 Alumni Success Stories", duration: "25:40", type: "Testimoni", src: "videos/12/video1.mp4" },
+                        { title: "Membuat Aplikasi Face Attendace dengan python", duration: "125:43", type: "PROYEK AKHIR", src: "videos/12/video1.mp4" },
                         { title: "💼 Career Path in IT", duration: "35:15", type: "Karir", src: "videos/12/video2.mp4" },
                         { title: "🏢 PKL Experience Sharing", duration: "28:30", type: "PKL", src: "videos/12/video3.mp4" },
                         { title: "🚀 Startup Journey", duration: "32:20", type: "Entrepreneurship", src: "videos/12/video4.mp4" },
@@ -1129,6 +1196,9 @@
 
             // Set local video source
             videoPlayer.src = video.src;
+            // hide any previous error
+            const videoError = document.getElementById('video-error');
+            if (videoError) videoError.style.display = 'none';
             videoTitle.textContent = video.title;
             videoDesc.textContent = video.title + ' - ' + video.duration + ' (' + video.type + ')';
 
@@ -1140,6 +1210,55 @@
             videoPlayer.src = ''; // Stop video
             document.getElementById('video-modal').classList.remove('active');
         }
+
+        // Video error handling: show retry/close UI
+        (function() {
+            const videoPlayer = document.getElementById('modal-video-player');
+            const videoError = document.getElementById('video-error');
+            const videoErrorMsg = document.getElementById('video-error-msg');
+            const videoRetry = document.getElementById('video-retry');
+            const videoCloseError = document.getElementById('video-close-error');
+
+            if (!videoPlayer) return;
+
+            function showVideoError(msg) {
+                if (videoError) {
+                    videoErrorMsg.textContent = msg || 'Error loading video.';
+                    videoError.style.display = 'block';
+                } else {
+                    alert(msg || 'Error loading video.');
+                }
+                try { videoPlayer.pause(); } catch (e) {}
+            }
+
+            videoPlayer.addEventListener('error', (e) => {
+                console.error('Video element error', e);
+                showVideoError('Error loading or playing this video.');
+            });
+
+            if (videoRetry) videoRetry.addEventListener('click', () => {
+                // attempt to reload and play
+                try {
+                    videoError.style.display = 'none';
+                    const src = videoPlayer.src;
+                    videoPlayer.src = '';
+                    // small timeout to force reload
+                    setTimeout(() => {
+                        videoPlayer.src = src;
+                        videoPlayer.load();
+                        videoPlayer.play().catch(() => {
+                            showVideoError('Retry failed: playback blocked or unsupported format.');
+                        });
+                    }, 200);
+                } catch (err) {
+                    showVideoError('Retry not possible for this file.');
+                }
+            });
+
+            if (videoCloseError) videoCloseError.addEventListener('click', () => {
+                if (videoError) videoError.style.display = 'none';
+            });
+        })();
 
         // Open slideshow modal at given index with photos array
         function openPhotoModal(index, photos) {
@@ -1231,19 +1350,337 @@
             }
         });
 
-        // Dark mode toggle function
-        function toggleDarkMode() {
+        // --- Translation / i18n ---
+        const translations = {
+            id: {
+                'home.title': 'Selamat datang',
+                'home.subtitle': 'Website Profile rekayasa perangkat lunak',
+                'home.school': 'SMKS TARUNA BANGSA',
+                'kelas10.title': 'KELAS 10',
+                'kelas10.subtitle': 'DASAR PROGRAMMING',
+                'kelas11.title': 'KELAS 11',
+                'kelas11.subtitle': 'PENGEMBANGAN APP',
+                'kelas12.title': 'KELAS 12',
+                'kelas12.subtitle': 'SPESIALISASI & PKL',
+                'btn.galeri': 'GALERI',
+                'btn.materi': 'MATERI',
+                'btn.video': 'VIDEO',
+                'breadcrumb.home': 'HOME',
+                'footer.line1': 'BY REKAYASA PERANGKAT LUNAK NASA',
+                'footer.line2': '© 2025 TEAM WEB DEEVELOPER UNIT PRODUKSI'
+            },
+            en: {
+                'home.title': 'Welcome',
+                'home.subtitle': 'Software Engineering profile website',
+                'home.school': 'SMKS TARUNA BANGSA',
+                'kelas10.title': 'CLASS 10',
+                'kelas10.subtitle': 'PROGRAMMING BASICS',
+                'kelas11.title': 'CLASS 11',
+                'kelas11.subtitle': 'APP DEVELOPMENT',
+                'kelas12.title': 'CLASS 12',
+                'kelas12.subtitle': 'SPECIALIZATION & INTERNSHIP',
+                'btn.galeri': 'GALLERY',
+                'btn.materi': 'LESSONS',
+                'btn.video': 'VIDEOS',
+                'breadcrumb.home': 'HOME',
+                'footer.line1': 'BY SOFTWARE ENGINEERING NASA',
+                'footer.line2': '© 2025 TEAM WEB DEVELOPMENT PRODUCTIONS'
+            }
+        };
+
+        function applyTranslations(lang) {
+            if (!translations[lang]) return;
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang][key]) {
+                    el.textContent = translations[lang][key];
+                }
+            });
+
+            // footer
+            const f1 = document.querySelector('#site-footer p:first-child');
+            const f2 = document.querySelector('#site-footer p:nth-child(2)');
+            if (f1 && f2) {
+                f1.textContent = translations[lang]['footer.line1'] || f1.textContent;
+                f2.textContent = translations[lang]['footer.line2'] || f2.textContent;
+            }
+
+            localStorage.setItem('site-lang', lang);
+        }
+
+        // Initialize language from localStorage or default to Indonesian
+        const savedLang = localStorage.getItem('site-lang') || 'id';
+        applyTranslations(savedLang);
+
+        const langIdBtn = document.getElementById('lang-id');
+        const langEnBtn = document.getElementById('lang-en');
+        langIdBtn.addEventListener('click', () => { applyTranslations('id'); setActiveLang('id'); });
+        langEnBtn.addEventListener('click', () => { applyTranslations('en'); setActiveLang('en'); });
+
+        function setActiveLang(lang) {
+            langIdBtn.classList.toggle('lang-active', lang === 'id');
+            langEnBtn.classList.toggle('lang-active', lang === 'en');
+        }
+
+        // set visual active language on load
+        setActiveLang(savedLang);
+
+        // --- Background music player ---
+        const playlist = [
+            { src: 'https://cdn.pixabay.com/download/audio/2022/03/15/audio_3c8d6b2e5d.mp3?filename=happy-upbeat-4388.mp3', title: 'Upbeat Loop' },
+            { src: 'https://cdn.pixabay.com/download/audio/2021/08/04/audio_3f1f3f4c8a.mp3?filename=ambient-110983.mp3', title: 'Ambient Pad' }
+        ];
+
+        // in-memory store for imported local tracks (object URLs)
+        const importedTracks = [];
+
+        let currentTrack = parseInt(localStorage.getItem('bg-track') || '0', 10) || 0;
+        const storedBg = localStorage.getItem('bg-playing');
+        // If user previously set bg-playing, respect it. Otherwise default to autoplay when playlist exists.
+        let isPlaying = (storedBg === 'true') ? true : ((storedBg === 'false') ? false : (playlist.length > 0));
+
+        const audio = document.getElementById('bg-audio');
+        const playBtn = document.getElementById('play-pause');
+        const prevBtn = document.getElementById('prev-track');
+        const nextBtn = document.getElementById('next-track');
+        const vol = document.getElementById('volume');
+        const trackTitle = document.getElementById('track-title');
+        const musicToggle = document.getElementById('music-toggle');
+        const player = document.getElementById('music-player');
+        const playerClose = document.getElementById('player-close');
+        const addTrackBtn = document.getElementById('add-track');
+        const trackInput = document.getElementById('track-input');
+        const playlistUl = document.getElementById('playlist-ul');
+
+        function loadTrack(index) {
+            currentTrack = (index + playlist.length) % playlist.length;
+            audio.src = playlist[currentTrack].src;
+            trackTitle.textContent = playlist[currentTrack].title;
+            localStorage.setItem('bg-track', currentTrack);
+            renderPlaylist();
+        }
+
+        function renderPlaylist() {
+            playlistUl.innerHTML = '';
+            playlist.forEach((t, i) => {
+                const li = document.createElement('li');
+                // build elements for accessibility and better layout
+                const titleSpan = document.createElement('span');
+                titleSpan.style.flex = '1';
+                titleSpan.style.cursor = 'pointer';
+                titleSpan.textContent = `${i === currentTrack ? '▶ ' : ''}${t.title}`;
+                titleSpan.addEventListener('click', () => { loadTrack(i); audio.play().catch(() => {}); updatePlayButton(); });
+
+                const controlsSpan = document.createElement('span');
+                controlsSpan.style.marginLeft = '8px';
+
+                const playBtnSmall = document.createElement('button');
+                playBtnSmall.className = 'px-2 py-0 border-2 border-black text-xs';
+                playBtnSmall.textContent = 'Play';
+                playBtnSmall.setAttribute('data-i', i);
+                playBtnSmall.addEventListener('click', (e) => { const idx = parseInt(e.target.getAttribute('data-i'), 10); loadTrack(idx); audio.play().catch(() => {}); updatePlayButton(); });
+
+                controlsSpan.appendChild(playBtnSmall);
+
+                // if local track, add remove button
+                if (t._local) {
+                    const removeBtn = document.createElement('button');
+                    removeBtn.className = 'px-2 py-0 border-2 border-black text-xs ml-2';
+                    removeBtn.textContent = 'Remove';
+                    removeBtn.addEventListener('click', () => {
+                        // revoke object URL
+                        try { URL.revokeObjectURL(t.src); } catch (e) {}
+                        playlist.splice(i,1);
+                        if (currentTrack >= playlist.length) currentTrack = 0;
+                        loadTrack(currentTrack);
+                        renderPlaylist();
+                        updatePlayButton();
+                    });
+                    controlsSpan.appendChild(removeBtn);
+                }
+
+                li.appendChild(titleSpan);
+                li.appendChild(controlsSpan);
+                playlistUl.appendChild(li);
+            });
+
+            // mark active class
+            Array.from(playlistUl.children).forEach((li, idx) => {
+                li.classList.toggle('active', idx === currentTrack);
+            });
+        }
+
+        function updatePlayButton() {
+            playBtn.textContent = audio.paused ? '► Play' : '❚❚ Pause';
+            localStorage.setItem('bg-playing', !audio.paused);
+        }
+
+        playBtn.addEventListener('click', () => {
+            if (audio.paused) {
+                audio.play();
+            } else {
+                audio.pause();
+            }
+            updatePlayButton();
+        });
+
+        // update play/pause when audio state changes
+        audio.addEventListener('play', updatePlayButton);
+        audio.addEventListener('pause', updatePlayButton);
+
+        // Error handling: show retry/skip UI instead of automatically skipping
+        const playerError = document.getElementById('player-error');
+        const playerErrorMsg = document.getElementById('player-error-msg');
+        const errorRetry = document.getElementById('error-retry');
+        const errorSkip = document.getElementById('error-skip');
+
+        function showAudioError(msg) {
+            // mark current track with _error flag
+            if (playlist[currentTrack]) playlist[currentTrack]._error = true;
+            renderPlaylist();
+            playerErrorMsg.textContent = msg || 'Audio error on this track';
+            playerError.style.display = 'block';
+            try { audio.pause(); } catch (e) {}
+            updatePlayButton();
+        }
+
+        function hideAudioError() {
+            playerError.style.display = 'none';
+        }
+
+        audio.addEventListener('error', (e) => {
+            console.error('Audio error', e);
+            showAudioError('Error loading or playing this audio.');
+        });
+
+        errorRetry.addEventListener('click', () => {
+            hideAudioError();
+            // try reload current track
+            const cur = playlist[currentTrack];
+            if (!cur) return;
+            // if local object URL was revoked earlier, re-create not possible — show message
+            try {
+                audio.src = cur.src;
+                audio.load();
+                audio.play().catch(() => { showAudioError('Retry failed.'); });
+            } catch (err) {
+                showAudioError('Retry not possible for this file.');
+            }
+        });
+
+        errorSkip.addEventListener('click', () => {
+            hideAudioError();
+            // skip to next track
+            loadTrack(currentTrack + 1);
+            audio.play().catch(() => {});
+        });
+
+        prevBtn.addEventListener('click', () => {
+            loadTrack(currentTrack - 1);
+            if (!audio.paused) audio.play();
+            updatePlayButton();
+        });
+
+        nextBtn.addEventListener('click', () => {
+            loadTrack(currentTrack + 1);
+            if (!audio.paused) audio.play();
+            updatePlayButton();
+        });
+
+        vol.addEventListener('input', (e) => {
+            audio.volume = parseFloat(e.target.value);
+        });
+
+        // Add/import local tracks
+        addTrackBtn.addEventListener('click', () => trackInput.click());
+        trackInput.addEventListener('change', (e) => {
+            const files = Array.from(e.target.files || []);
+            if (files.length === 0) return;
+            files.forEach(file => {
+                const url = URL.createObjectURL(file);
+                playlist.push({ src: url, title: file.name, _local: true });
+                importedTracks.push(url);
+            });
+            // load the first newly added track immediately
+            loadTrack(playlist.length - files.length);
+            audio.play().catch(() => {});
+            updatePlayButton();
+        });
+
+        audio.addEventListener('ended', () => {
+            loadTrack(currentTrack + 1);
+            audio.play();
+        });
+
+        musicToggle.addEventListener('click', () => {
+            // show/hide player
+            if (player.style.display === 'none' || !player.style.display) {
+                player.style.display = 'block';
+                renderPlaylist();
+            } else {
+                player.style.display = 'none';
+            }
+        });
+
+        playerClose.addEventListener('click', () => {
+            player.style.display = 'none';
+        });
+
+        // Initialize player
+        loadTrack(currentTrack);
+        audio.volume = parseFloat(vol.value) || 0.6;
+        // Show a one-click overlay to enable autoplay unless previously granted
+        const autoplayGranted = localStorage.getItem('autoplay-granted') === 'true';
+        if (isPlaying && autoplayGranted) {
+            audio.play().then(() => { updatePlayButton(); }).catch(() => { /* ignore */ });
+        } else if (isPlaying && !autoplayGranted) {
+            // Show full-screen overlay that the user can click to grant permission and start music
+            const perm = document.getElementById('audio-permission');
+            if (perm) perm.style.display = 'flex';
+        }
+        
+        // audio permission overlay button (single consolidated handler)
+        const audioPermBtn = document.getElementById('audio-permission-btn');
+        if (audioPermBtn) {
+            audioPermBtn.addEventListener('click', () => {
+                audio.play().then(() => {
+                    // only mark granted if play succeeded
+                    localStorage.setItem('autoplay-granted', 'true');
+                    localStorage.setItem('bg-playing', 'true');
+                    const perm = document.getElementById('audio-permission');
+                    if (perm) perm.style.display = 'none';
+                    updatePlayButton();
+                }).catch(() => {
+                    // still blocked; keep overlay visible and notify user
+                    alert('Browser is blocking autoplay. Please click Play in the player.');
+                });
+            });
+        }
+        
+        updatePlayButton();
+
+        // Apply saved theme
+        const savedTheme = localStorage.getItem('site-theme') || 'light';
+        setTheme(savedTheme);
+
+
+        // Theme functions
+        function setTheme(theme) {
             const body = document.body;
             const toggleButton = document.getElementById('theme-toggle');
-
-            body.classList.toggle('dark-mode');
-
-            // Update button icon
-            if (body.classList.contains('dark-mode')) {
-                toggleButton.innerHTML = '☀️'; // Sun icon for light mode
+            if (theme === 'dark') {
+                body.classList.add('dark-mode');
+                toggleButton.innerHTML = '🌙';
             } else {
-                toggleButton.innerHTML = '🌙'; // Moon icon for dark mode
+                body.classList.remove('dark-mode');
+                toggleButton.innerHTML = '☀️';
             }
+            localStorage.setItem('site-theme', theme);
+        }
+
+        function toggleDarkMode() {
+            const current = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+            setTheme(current === 'dark' ? 'light' : 'dark');
         }
     </script>
     <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9941f2c7c2b0fd02',t:'MTc2MTM5Nzc2Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
