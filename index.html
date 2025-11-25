@@ -76,25 +76,47 @@
             border-image: url("data:image/svg+xml,%3csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='m0,0 L100,0 L100,100 L0,100 z' fill='none' stroke='black' stroke-width='2'/%3e%3c/svg%3e") 2;
         }
         
-        /* TV turn-off effect */
+        /* Pixelated 8-bit page transition (smooth pixel wipe like pixel book) */
         .page-transition {
             position: fixed;
-            top: 50%;
-            left: 50%;
-            width: 100vh;
-            height: 100vh;
-            background: black;
-            border-radius: 50%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                repeating-linear-gradient(
+                    90deg,
+                    #1a1a1a 0px,
+                    #1a1a1a 8px,
+                    transparent 8px,
+                    transparent 16px
+                );
             z-index: 9999;
-            transform: translate(-50%, -50%) scale(2);
             opacity: 0;
             pointer-events: none;
-            transition: all 0.4s cubic-bezier(0.33, 1, 0.68, 1);
+            transform: translateX(-100%);
+            transition: none;
+            background-size: 16px 100%;
+            background-repeat: repeat-x;
         }
         
         .page-transition.active {
-            transform: translate(-50%, -50%) scale(0.01);
             opacity: 1;
+            animation: pixelFlipSmooth 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+
+        @keyframes pixelFlipSmooth {
+            0% {
+                transform: translateX(-100%);
+                opacity: 1;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(100%);
+                opacity: 0;
+            }
         }
         
         .page {
@@ -327,6 +349,13 @@
             color: #e2e8f0;
         }
 
+        .dark-mode h1,
+        .dark-mode h2,
+        .dark-mode h3,
+        .dark-mode p {
+            color: #ffffff !important;
+        }
+
         .dark-mode .pixel-bg {
             background-image:
                 radial-gradient(circle at 25% 25%, #00ffff 2px, transparent 2px),
@@ -415,12 +444,12 @@
             color: #a0aec0;
         }
 
-        /* Dark mode toggle button */
+        /* Compact sidebar control - combined theme + language toggle */
         .theme-toggle {
             position: fixed;
             top: 20px;
-            right: 20px;
-            z-index: 1000;
+            left: 20px;
+            z-index: 100;
             background: linear-gradient(45deg, #2b6cb0, #2c5282);
             border: 4px solid #000;
             box-shadow: 4px 4px 0px #000, 8px 8px 0px rgba(0,0,0,0.3);
@@ -431,7 +460,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
+            font-size: 20px;
             transition: all 0.2s ease;
             image-rendering: pixelated;
         }
@@ -447,6 +476,71 @@
 
         .dark-mode .theme-toggle {
             background: linear-gradient(45deg, #fbbf24, #f59e0b);
+        }
+
+        /* Language controls - hidden by default, revealed on hover/click */
+        #top-controls {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 100;
+            pointer-events: none;
+        }
+
+        #top-controls > div {
+            display: flex;
+            flex-direction: row;
+            gap: 8px;
+            align-items: center;
+            pointer-events: auto;
+            opacity: 0;
+            transform: translateX(70px);
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .theme-toggle:hover ~ #top-controls > div,
+        #top-controls:hover > div,
+        #top-controls.active > div {
+            opacity: 1;
+            transform: translateX(70px);
+        }
+
+        #top-controls button {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 3px solid #000;
+            background: white;
+            color: #000;
+            font-weight: bold;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 3px 3px 0px #000, 6px 6px 0px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #top-controls button:hover {
+            transform: scale(1.05);
+            box-shadow: 3px 3px 0px #000, 6px 6px 0px rgba(0,0,0,0.3);
+        }
+
+        #top-controls button:active {
+            transform: scale(0.95);
+            box-shadow: 1px 1px 0px #000;
+        }
+
+        .dark-mode #top-controls button {
+            background: #2d3748;
+            color: #ffffff;
+            border-color: #4a5568;
+            box-shadow: 3px 3px 0px #4a5568, 6px 6px 0px rgba(74, 85, 104, 0.3);
+        }
+
+        .dark-mode #top-controls button:hover {
+            background: #4a5568;
         }
 
         /* Responsive helpers: scale buttons, gallery and modals for various viewport sizes.
@@ -520,17 +614,14 @@
     <!-- Circle Transition Animation -->
     <div id="page-transition" class="page-transition"></div>
 
-    <!-- Top bar: language toggle -->
-    <div id="top-controls" class="fixed top-3 right-3 z-50 flex items-center space-x-3">
-        <div class="flex items-center space-x-1 bg-white/80 border-2 border-black rounded px-2 py-1">
-            <button id="lang-id" class="px-2 py-1 text-sm font-bold">ID</button>
-            <button id="lang-en" class="px-2 py-1 text-sm font-bold">EN</button>
+    <!-- Compact sidebar: theme + language toggle (expandable -> <-) -->
+    <button id="theme-toggle" class="theme-toggle" onclick="toggleDarkMode()">→←</button>
+    <div id="top-controls">
+        <div>
+            <button id="lang-id" class="font-bold">ID</button>
+            <button id="lang-en" class="font-bold">EN</button>
         </div>
     </div>
-
-    <!-- Background music removed -->
-
-    <!-- Dark Mode Toggle Button -->
     <button id="theme-toggle" class="theme-toggle" onclick="toggleDarkMode()">🌙</button>
 
     <!-- Level 1: Home Page -->
@@ -1109,21 +1200,21 @@
         function navigateWithTransition(fromElement, toElement) {
             const transition = createTVEffect();
             
-            // Start shrinking animation
+            // Start smooth pixelated wipe animation
             requestAnimationFrame(() => {
                 transition.classList.add('active');
                 
+                // Swap pages at midpoint of animation for seamless transition
                 setTimeout(() => {
-                    // Switch pages when circle is smallest
                     fromElement.classList.remove('active');
                     toElement.classList.add('active');
-                    
-                    // Reset transition for next use
-                    setTimeout(() => {
-                        transition.classList.remove('active');
-                        transition.style.display = 'none';
-                    }, 100);
                 }, 300);
+                
+                // Remove transition element after animation completes
+                setTimeout(() => {
+                    transition.classList.remove('active');
+                    transition.style.display = 'none';
+                }, 600);
             });
         }
 
